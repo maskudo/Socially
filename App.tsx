@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome6';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Conversations from './src/screens/Conversations';
@@ -30,6 +30,7 @@ function App(): JSX.Element {
 }
 
 function TabScreen() {
+  const navigation = useNavigation();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -46,12 +47,44 @@ function TabScreen() {
         }}
       />
       <Tab.Screen
+        name="Messaging"
+        component={Messaging}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('Messaging');
+          },
+        })}
+        options={{
+          tabBarLabel: 'Messaging',
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon name={'message'} color={color} size={size} solid />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={Conversations}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('Conversations');
+          },
+        })}
+        options={{
+          tabBarLabel: 'Notifications',
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon name={'heart'} color={color} size={size} solid />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: 'Categories',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon name={'list'} color={color} size={size} solid />
+            <FontAwesomeIcon name={'user'} color={color} size={size} solid />
           ),
         }}
       />

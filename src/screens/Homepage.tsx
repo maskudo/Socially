@@ -1,10 +1,22 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Post from '../components/common/Post';
+import RoundedAvatar from '../components/common/RoundedAvatar';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome6';
+
+const post = {
+  createdAt: '2 Hours ago',
+  createBy: 'Dennis Reynolds',
+  comments: ['hello', 'world'],
+  likes: ['apar', 'praful'],
+  saves: ['apar', 'praful'],
+};
+const POSTS = [1, 2, 3, 4, 5, 6];
 export default function Homepage() {
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Socially</Text>
-        <Text style={styles.headerText}>Bell</Text>
+        <FontAwesomeIcon name={'bell'} style={styles.headerText} />
       </View>
       <Text style={styles.feed}>Feed</Text>
       <View style={styles.storyContainer}>
@@ -13,21 +25,51 @@ export default function Homepage() {
           style={{...styles.storyButton, ...styles.addStoryButton}}>
           <Text>+</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.storyButton} />
-        <TouchableOpacity onPress={() => {}} style={styles.storyButton} />
-        <TouchableOpacity onPress={() => {}} style={styles.storyButton} />
-        <TouchableOpacity onPress={() => {}} style={styles.storyButton} />
+        <RoundedAvatar
+          dimension={50}
+          styles={{borderColor: 'green'}}
+          image={require('../../assets/img/splash/main.png')}
+        />
+        <RoundedAvatar
+          dimension={50}
+          styles={{borderColor: 'green'}}
+          image={require('../../assets/img/splash/main.png')}
+        />
+        <RoundedAvatar
+          dimension={50}
+          styles={{borderColor: 'green'}}
+          image={require('../../assets/img/splash/main.png')}
+        />
+        <RoundedAvatar
+          dimension={50}
+          styles={{borderColor: 'green'}}
+          image={require('../../assets/img/splash/main.png')}
+        />
+        <RoundedAvatar
+          dimension={50}
+          styles={{borderColor: 'green'}}
+          image={require('../../assets/img/splash/main.png')}
+        />
       </View>
+      <FlatList
+        style={styles.postContainer}
+        data={POSTS}
+        renderItem={() => <Post post={post} />}
+        keyExtractor={item => item}
+      />
     </View>
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+  },
   header: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: '10%',
+    paddingVertical: '10%',
   },
   headerText: {
     fontWeight: '700',
@@ -40,7 +82,6 @@ const styles = StyleSheet.create({
   },
   storyContainer: {
     marginVertical: 25,
-    borderWidth: 1,
     height: 50,
     display: 'flex',
     flexDirection: 'row',
@@ -53,17 +94,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   storyButton: {
-    height: 40,
-    width: 40,
+    height: 50,
+    width: 50,
     borderRadius: 100,
     borderWidth: 1,
   },
   imageContainer: {
-    height: '30%',
+    height: 400,
     display: 'flex',
     alignItems: 'center',
   },
   image: {
     height: '100%',
+    borderRadius: 20,
+  },
+  postContainer: {
+    marginBottom: 250,
+    display: 'flex',
+    gap: 30,
   },
 });
