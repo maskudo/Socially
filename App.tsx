@@ -17,11 +17,15 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Home"
           component={TabScreen}
           options={() => ({headerShown: false})}
         />
-        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Conversations" component={Conversations} />
         <Stack.Screen name="Messaging" component={Messaging} />
       </Stack.Navigator>
@@ -42,7 +46,7 @@ function TabScreen() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon name={'house'} color={color} size={size} solid />
+            <FontAwesomeIcon name={'house'} color={color} size={size} brand />
           ),
         }}
       />
@@ -58,7 +62,7 @@ function TabScreen() {
         options={{
           tabBarLabel: 'Messaging',
           tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon name={'message'} color={color} size={size} solid />
+            <FontAwesomeIcon name={'message'} color={color} size={size} brand />
           ),
         }}
       />
@@ -74,7 +78,7 @@ function TabScreen() {
         options={{
           tabBarLabel: 'Notifications',
           tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon name={'heart'} color={color} size={size} solid />
+            <FontAwesomeIcon name={'heart'} color={color} size={size} brand />
           ),
         }}
       />
@@ -84,7 +88,7 @@ function TabScreen() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon name={'user'} color={color} size={size} solid />
+            <FontAwesomeIcon name={'user'} color={color} size={size} brand />
           ),
         }}
       />

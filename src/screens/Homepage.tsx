@@ -10,7 +10,6 @@ const post = {
   likes: ['apar', 'praful'],
   saves: ['apar', 'praful'],
 };
-const POSTS = [1, 2, 3, 4, 5, 6];
 export default function Homepage() {
   return (
     <View style={styles.container}>
@@ -25,35 +24,17 @@ export default function Homepage() {
           style={{...styles.storyButton, ...styles.addStoryButton}}>
           <Text>+</Text>
         </TouchableOpacity>
-        <RoundedAvatar
-          dimension={50}
-          styles={{borderColor: 'green'}}
-          image={require('../../assets/img/splash/main.png')}
-        />
-        <RoundedAvatar
-          dimension={50}
-          styles={{borderColor: 'green'}}
-          image={require('../../assets/img/splash/main.png')}
-        />
-        <RoundedAvatar
-          dimension={50}
-          styles={{borderColor: 'green'}}
-          image={require('../../assets/img/splash/main.png')}
-        />
-        <RoundedAvatar
-          dimension={50}
-          styles={{borderColor: 'green'}}
-          image={require('../../assets/img/splash/main.png')}
-        />
-        <RoundedAvatar
-          dimension={50}
-          styles={{borderColor: 'green'}}
-          image={require('../../assets/img/splash/main.png')}
-        />
+        {[1, 2, 3, 4, 5].map(() => (
+          <RoundedAvatar
+            dimension={50}
+            styles={{borderColor: 'green'}}
+            image={require('../../assets/img/splash/main.png')}
+          />
+        ))}
       </View>
       <FlatList
         style={styles.postContainer}
-        data={POSTS}
+        data={[1, 2, 3, 4, 5]}
         renderItem={() => <Post post={post} />}
         keyExtractor={item => item}
       />
