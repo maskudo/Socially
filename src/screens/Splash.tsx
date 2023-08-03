@@ -1,8 +1,18 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
 import COLORS from '../constants/colors';
 import TYPOGRAPHY from '../constants/typography';
 
 export default function Splash() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -16,7 +26,14 @@ export default function Splash() {
         />
       </View>
       <View style={styles.next}>
-        <Text style={styles.nextText}>Next</Text>
+        <TouchableOpacity
+          style={styles.nextText}
+          onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.nextText}>
+            Next {'  '}
+            <Octicons name="arrow-right" style={{...styles.nextText}} />
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.blackContainerOutline} />
       <View style={styles.blackContainer} />
@@ -56,6 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     padding: '20%',
+    paddingRight: 40,
   },
   nextText: {
     ...TYPOGRAPHY.buttonLarge,
