@@ -1,15 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
-import RoundedAvatar from '../components/common/RoundedAvatar';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import COLORS from '../constants/colors';
 import TYPOGRAPHY from '../constants/typography';
 export default function Profile() {
   return (
     <View>
+      <View style={styles.blueContainer} />
       <View style={styles.profile}>
-        <RoundedAvatar
-          dimension={70}
-          image={require('../../assets/img/profile/face.jpg')}
-          styles={{bordeWidth: 1}}
-        />
+        <View style={styles.imageContainerOutline}>
+          <View style={styles.innerImageContainer}>
+            <Image
+              source={require('../../assets/img/profile/face.jpg')}
+              style={styles.profileImage}
+              resizeMode="cover"
+            />
+          </View>
+        </View>
         <Text style={styles.name}>Jane Doe</Text>
         <Text style={styles.handle}>@janedoe</Text>
       </View>
@@ -60,4 +65,37 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.h2Bold,
   },
   posts: {},
+  profileImage: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  innerImageContainer: {
+    position: 'relative',
+    transform: [{rotate: '-45deg'}],
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  imageContainerOutline: {
+    width: 100,
+    height: 100,
+    borderWidth: 2,
+    borderRadius: 35,
+    transform: [{rotate: '45deg'}],
+    padding: 10,
+  },
+  blueContainer: {
+    position: 'absolute',
+    width: 400,
+    height: 400,
+    top: -150,
+    left: -10,
+    borderRadius: 152,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray,
+    backgroundColor: COLORS.lightblue,
+    transform: [{rotate: '-45deg'}],
+  },
 });
