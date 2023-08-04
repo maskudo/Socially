@@ -1,7 +1,17 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Post from '../components/common/Post';
-import RoundedAvatar from '../components/common/RoundedAvatar';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome6';
+import TYPOGRAPHY from '../constants/typography';
+import FONTS from '../constants/fonts';
+import COLORS from '../constants/colors';
+import {nanoid} from 'nanoid';
 
 const post = {
   createdAt: '2 Hours ago',
@@ -10,32 +20,45 @@ const post = {
   likes: ['apar', 'praful'],
   saves: ['apar', 'praful'],
 };
+const posts = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
 export default function Homepage() {
   return (
     <View style={styles.container}>
+      <View style={styles.blueContainer} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Socially</Text>
-        <FontAwesomeIcon name={'bell'} style={styles.headerText} />
+        <FontAwesomeIcon name={'bell'} style={styles.headerIcon} solid />
       </View>
       <Text style={styles.feed}>Feed</Text>
-      <View style={styles.storyContainer}>
-        <TouchableOpacity
-          onPress={() => {}}
-          style={{...styles.storyButton, ...styles.addStoryButton}}>
-          <Text>+</Text>
-        </TouchableOpacity>
-        {[1, 2, 3, 4, 5].map(() => (
-          <RoundedAvatar
-            dimension={50}
-            styles={{borderColor: 'green'}}
-            image={require('../../assets/img/splash/main.png')}
-          />
-        ))}
-      </View>
       <FlatList
         style={styles.postContainer}
         data={[1, 2, 3, 4, 5]}
+        stickyHeaderHiddenOnScroll={true}
+        showsVerticalScrollIndicator={false}
         renderItem={() => <Post post={post} />}
+        ListHeaderComponent={
+          <View style={styles.storyContainer}>
+            <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
+              <ImageBackground
+                source={require('../../assets/img/common/ButtonAddStory.png')}
+                resizeMode="contain"
+                style={styles.storyButtonImage}
+              />
+            </TouchableOpacity>
+            {posts.map(elem => (
+              <TouchableOpacity
+                onPress={() => {}}
+                key={elem}
+                style={styles.storyButton}>
+                <ImageBackground
+                  source={require('../../assets/img/profile/face.jpg')}
+                  resizeMode="cover"
+                  style={styles.storyButtonImage}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        }
         keyExtractor={item => item}
       />
     </View>
@@ -44,6 +67,7 @@ export default function Homepage() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    position: 'relative',
   },
   header: {
     width: '100%',
@@ -53,13 +77,14 @@ const styles = StyleSheet.create({
     paddingVertical: '10%',
   },
   headerText: {
-    fontWeight: '700',
-    fontSize: 15,
+    ...TYPOGRAPHY.bodyRegular,
+    fontFamily: FONTS.fontBold,
+  },
+  headerIcon: {
+    ...TYPOGRAPHY.h3,
   },
   feed: {
-    paddingHorizontal: '10%',
-    fontWeight: '700',
-    fontSize: 25,
+    ...TYPOGRAPHY.h2Bold,
   },
   storyContainer: {
     marginVertical: 25,
@@ -69,16 +94,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  addStoryButton: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   storyButton: {
-    height: 50,
-    width: 50,
+    height: 56,
+    width: 56,
     borderRadius: 100,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: COLORS.blue,
+    overflow: 'hidden',
+  },
+  storyButtonImage: {
+    width: '100%',
+    height: '100%',
   },
   imageContainer: {
     height: 400,
@@ -90,8 +116,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   postContainer: {
-    marginBottom: 250,
+    marginBottom: 150,
     display: 'flex',
-    gap: 30,
+  },
+  blueContainer: {
+    position: 'absolute',
+    width: 680,
+    height: 470,
+    left: -275,
+    top: 10,
+    borderRadius: 152,
+    borderWidth: 0.5,
+    borderColor: COLORS.lightgray,
+    backgroundColor: COLORS.lightblue,
+    transform: [{rotate: '-45deg'}],
   },
 });

@@ -1,4 +1,6 @@
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import COLORS from '../../constants/colors';
+import TYPOGRAPHY from '../../constants/typography';
 import RoundedAvatar from './RoundedAvatar';
 
 export type PostProps = {
@@ -10,52 +12,58 @@ export type PostProps = {
 };
 export default function Post({post}: {post: PostProps}) {
   return (
-    <View style={styles.imageContainer}>
-      <ImageBackground
-        source={require('../../../assets/img/home/post.png')}
-        resizeMode="cover"
-        style={styles.image}>
-        <View style={styles.container}>
-          <View style={styles.topContainer}>
-            <View style={styles.topLeft}>
-              <RoundedAvatar
-                dimension={40}
-                styles={{borderColor: 'grey'}}
-                image={require('../../../assets/img/splash/main.png')}
-              />
-              <View style={styles.textContainer}>
-                <Text style={styles.text}>{post.createBy}</Text>
-                <Text style={styles.text}>{post.createdAt}</Text>
-              </View>
+    <View style={styles.postContainer}>
+      <Image
+        source={require('../../../assets/img/home/nature.jpg')}
+        style={styles.image}
+      />
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <View style={styles.topLeft}>
+            <RoundedAvatar
+              dimension={40}
+              styles={{borderColor: 'grey'}}
+              image={require('../../../assets/img/profile/face.jpg')}
+            />
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>{post.createBy}</Text>
+              <Text style={styles.text}>{post.createdAt}</Text>
             </View>
-            <View style={styles.topRight}>
-              <Image
-                source={require('../../../assets/img/common/Button-options.png')}
-              />
-            </View>
-            <View />
           </View>
+          <View style={styles.topRight}>
+            <Image
+              source={require('../../../assets/img/common/Button-options.png')}
+            />
+          </View>
+          <View />
         </View>
-      </ImageBackground>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  imageContainer: {
-    marginVertical: 10,
+  postContainer: {
+    position: 'relative',
+    width: 350,
+    height: 290,
+    marginBottom: 10,
   },
   image: {
-    height: 400,
+    position: 'absolute',
+    borderRadius: 20,
+    resizeMode: 'cover',
     width: '100%',
+    height: '100%',
   },
   container: {
     padding: 20,
   },
   text: {
-    color: 'white',
+    ...TYPOGRAPHY.captions,
+    color: COLORS.white,
   },
   textRight: {
-    color: 'white',
+    color: COLORS.white,
     flex: 1,
     textAlign: 'right',
     fontSize: 30,

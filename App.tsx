@@ -17,14 +17,14 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Splash"
-          component={Splash}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="Home"
           component={TabScreen}
           options={() => ({headerShown: false})}
+        />
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
         />
         <Stack.Screen name="Conversations" component={Conversations} />
         <Stack.Screen name="Messaging" component={Messaging} />
