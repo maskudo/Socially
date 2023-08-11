@@ -39,7 +39,7 @@ const TYPOGRAPHY = StyleSheet.create({
     color: COLORS.black,
   },
   captions: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: FONTS.fontRegular,
     color: COLORS.gray,
   },
