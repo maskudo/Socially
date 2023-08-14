@@ -37,4 +37,26 @@ const MESSAGES = [
     text: 'arisenow',
   },
 ];
-export {POST, MESSAGES};
+const CONVERSATION = [
+  {
+    sender: 'Charlie Kelly',
+    receiver: 'Malenia',
+    text: 'we are going to c da lions',
+  },
+  {
+    sender: 'Charlie Kelly',
+    receiver: 'Malenia',
+    text: 'they are doing a feed thing at the zoo',
+  },
+  {
+    sender: 'Malenia',
+    receiver: 'Charlie Kelly',
+    text: 'when?',
+  },
+  {
+    sender: 'Malenia',
+    receiver: 'Charlie Kelly',
+    text: 'see the lions or sealions? also is matt going to be there?',
+  },
+];
+export {POST, MESSAGES, CONVERSATION};
