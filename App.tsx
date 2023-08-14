@@ -28,7 +28,11 @@ function App(): JSX.Element {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Conversations" component={Conversations} />
-        <Stack.Screen name="Messaging" component={Messaging} />
+        <Stack.Screen
+          name="Messaging"
+          component={Messaging}
+          options={() => ({headerShown: false})}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

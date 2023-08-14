@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     position: 'relative',
+    backgroundColor: COLORS.white,
   },
   profile: {
     height: 250,

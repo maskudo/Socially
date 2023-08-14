@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     position: 'relative',
+    backgroundColor: COLORS.white,
   },
   header: {
     width: '100%',

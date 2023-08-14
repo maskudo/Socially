@@ -44,6 +44,7 @@ export default function Splash() {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
+    backgroundColor: COLORS.white,
   },
   welcomeContainer: {
     height: '30%',

@@ -16,7 +16,7 @@ type MessageProps = {
 export default function Message({message}: {message: MessageProps}) {
   return (
     <View style={styles.messageContainer}>
-      <View>
+      <View style={styles.outline}>
         <TouchableOpacity
           onPress={() => {}}
           key={message.id}
@@ -58,12 +58,19 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 70,
   },
-  roundedButton: {
-    height: 62,
-    width: 62,
-    borderRadius: 100,
+  outline: {
     borderWidth: 2,
-    borderColor: COLORS.blue,
+    borderColor: COLORS.black,
+    height: 67,
+    width: 67,
+    borderRadius: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  roundedButton: {
+    height: 60,
+    width: 60,
+    borderRadius: 100,
     overflow: 'hidden',
   },
   roundedButtonImage: {

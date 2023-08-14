@@ -1,14 +1,30 @@
-import {FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
 import {MESSAGES} from '../utils/data';
 import Message from '../components/common/Message';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Homepage() {
+  const navigation = useNavigation();
+  const goBack = navigation.goBack;
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={goBack}>
+          <Icon name={'arrow-left'} style={styles.headerIcon} />
+        </TouchableOpacity>
+        <Icon name={'menu'} style={styles.headerIcon} />
+      </View>
       <View style={styles.blueContainer} />
       <FlatList
         style={styles.messageContainer}
@@ -40,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     position: 'relative',
+    backgroundColor: COLORS.white,
   },
   header: {
     width: '100%',
@@ -53,7 +70,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.fontBold,
   },
   headerIcon: {
-    ...TYPOGRAPHY.h3,
+    ...TYPOGRAPHY.h1,
   },
   inputContainer: {
     display: 'flex',
@@ -61,7 +78,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
   },
   myTextInput: {
-    paddingHorizontal: 20,
+    paddingLeft: 20,
     borderRadius: 15,
     width: 290,
     height: 48,
@@ -75,6 +92,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     ...TYPOGRAPHY.captions,
+    flex: 1,
   },
   messages: {
     ...TYPOGRAPHY.h2Bold,
@@ -97,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   messageContainer: {
-    marginVertical: 40,
+    marginBottom: 40,
     display: 'flex',
   },
   blueContainer: {
@@ -105,7 +123,7 @@ const styles = StyleSheet.create({
     width: 680,
     height: 680,
     left: -680 / 4 + 10,
-    top: 680 / 4 + 80,
+    top: 680 / 4 + 160,
     borderRadius: 152,
     borderWidth: 0.5,
     borderColor: COLORS.lightgray,
