@@ -1,14 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import COLORS from '../constants/colors';
+import {splashImage} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
 
 export default function Splash() {
@@ -20,10 +14,7 @@ export default function Splash() {
         <Text style={styles.socially}>Socially</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Image
-          source={require('../../assets/img/splash/main.png')}
-          style={styles.image}
-        />
+        <Image source={splashImage} style={styles.image} />
       </View>
       <View style={styles.next}>
         <TouchableOpacity

@@ -1,9 +1,8 @@
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import Post from '../components/common/Post';
 import COLORS from '../constants/colors';
+import {face1, postImage} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
-import {POST} from '../utils/data';
 export default function Profile() {
   return (
     <View style={styles.container}>
@@ -11,9 +10,19 @@ export default function Profile() {
       <FlatList
         style={styles.postsContainer}
         data={[1, 2, 3, 4, 5]}
+        numColumns={2}
+        columnWrapperStyle={styles.column}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
-        renderItem={() => <Post post={POST} />}
+        renderItem={() => (
+          <View style={styles.postImageContainer}>
+            <Image
+              source={postImage}
+              resizeMode="cover"
+              style={styles.postImage}
+            />
+          </View>
+        )}
         keyExtractor={item => item}
         ListHeaderComponent={
           <View>
@@ -21,7 +30,7 @@ export default function Profile() {
               <View style={styles.imageContainerOutline}>
                 <View style={styles.imageContainer}>
                   <Image
-                    source={require('../../assets/img/profile/face.jpg')}
+                    source={face1}
                     style={styles.profileImage}
                     resizeMode="cover"
                   />
@@ -135,5 +144,16 @@ const styles = StyleSheet.create({
   },
   postsContainer: {
     display: 'flex',
+    padding: 10,
+  },
+  postImageContainer: {},
+  postImage: {
+    width: 160,
+    height: 225,
+    borderRadius: 20,
+  },
+  column: {
+    gap: 10,
+    marginVertical: 10,
   },
 });

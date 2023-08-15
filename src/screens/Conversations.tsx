@@ -13,6 +13,7 @@ import BlackSquareRoundedEdge from '../components/common/BlackSquareRoundedEdge'
 import Conversation from '../components/common/Conversation';
 import COLORS from '../constants/colors';
 import FONTS from '../constants/fonts';
+import {face2} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
 import {CONVERSATION} from '../utils/data';
 
@@ -31,7 +32,7 @@ export default function Conversations() {
           <View style={styles.imageContainerOutline}>
             <TouchableOpacity onPress={() => {}} style={styles.imageContainer}>
               <ImageBackground
-                source={require('../../assets/img/profile/face.jpg')}
+                source={face2}
                 resizeMode="cover"
                 style={styles.profileImage}
               />
@@ -59,17 +60,18 @@ export default function Conversations() {
             placeholder={'Write a message...'}
             placeholderTextColor={COLORS.gray}
           />
-          <View style={styles.sendTextButton} />
-          <BlackSquareRoundedEdge
-            icon={
-              <Icon
-                name="send"
-                size={25}
-                color={COLORS.white}
-                style={styles.sendTextIcon}
-              />
-            }
-          />
+          <View style={styles.sendTextButton}>
+            <BlackSquareRoundedEdge
+              icon={
+                <Icon
+                  name="send"
+                  size={25}
+                  color={COLORS.white}
+                  style={styles.sendTextIcon}
+                />
+              }
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
   },
   myTextInput: {
     paddingLeft: 20,
+    paddingRight: 15,
     borderRadius: 40,
     width: 290,
     height: 80,
@@ -175,11 +178,8 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.captions,
     flex: 1,
     color: COLORS.black,
-    borderWidth: 1,
   },
-  sendTextButton: {
-    borderWidth: 1,
-  },
+  sendTextButton: {},
   sendTextIcon: {
     transform: [{rotate: '-45deg'}],
   },

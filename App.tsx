@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Feather';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
@@ -9,6 +9,8 @@ import Messaging from './src/screens/Messaging';
 import Profile from './src/screens/Profile';
 import Splash from './src/screens/Splash';
 import COLORS from './src/constants/colors';
+import {StyleSheet, View} from 'react-native';
+import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEdge';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -23,11 +25,15 @@ function App(): JSX.Element {
           options={() => ({headerShown: false})}
         />
         <Stack.Screen
+          name="Conversations"
+          component={Conversations}
+          options={() => ({headerShown: false})}
+        />
+        <Stack.Screen
           name="Splash"
           component={Splash}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Conversations" component={Conversations} />
         <Stack.Screen
           name="Messaging"
           component={Messaging}
@@ -51,24 +57,8 @@ function TabScreen() {
         component={Homepage}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <Feather name={'home'} color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="SplashScreen"
-        component={Splash}
-        listeners={() => ({
-          tabPress: e => {
-            e.preventDefault();
-            navigation.navigate('Splash');
-          },
-        })}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <Feather name={'image'} color={color} size={size} />
+          tabBarIcon: ({size}) => (
+            <Icon name={'home'} color={COLORS.black} size={size} />
           ),
         }}
       />
@@ -83,8 +73,35 @@ function TabScreen() {
         })}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <Feather name={'message-square'} color={color} size={size} />
+          tabBarIcon: ({size}) => (
+            <Icon name={'message-square'} color={COLORS.black} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SplashScreen"
+        component={Splash}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('Splash');
+          },
+        })}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <View style={styles.addPostButton}>
+              <BlackSquareRoundedEdge
+                icon={
+                  <Icon
+                    name="plus-circle"
+                    size={20}
+                    color={COLORS.white}
+                    style={styles.addPostIcon}
+                  />
+                }
+              />
+            </View>
           ),
         }}
       />
@@ -99,8 +116,8 @@ function TabScreen() {
         })}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <Feather name={'heart'} color={color} size={size} />
+          tabBarIcon: ({size}) => (
+            <Icon name={'heart'} color={COLORS.black} size={size} />
           ),
         }}
       />
@@ -109,13 +126,22 @@ function TabScreen() {
         component={Profile}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <Feather name={'user'} color={color} size={size} />
+          tabBarIcon: ({size}) => (
+            <Icon name={'user'} color={COLORS.black} size={size} />
           ),
         }}
       />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  addPostButton: {
+    marginBottom: 10,
+  },
+  addPostIcon: {
+    transform: [{rotate: '-45deg'}],
+  },
+});
 
 export default App;

@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import COLORS from '../../constants/colors';
+import {face1} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 
 type MessageProps = {
@@ -22,7 +23,7 @@ export default function Message({message}: {message: MessageProps}) {
           key={message.id}
           style={styles.roundedButton}>
           <ImageBackground
-            source={require('../../../assets/img/profile/face.jpg')}
+            source={face1}
             resizeMode="cover"
             style={styles.roundedButtonImage}
           />

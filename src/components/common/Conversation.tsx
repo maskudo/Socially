@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
   },
   text: {
     ...TYPOGRAPHY.captions,
-    width: '60%',
+    maxWidth: '60%',
     backgroundColor: 'rgba(65,65,65,0.05)',
     borderRadius: 15,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    textAlign: 'left',
   },
 });

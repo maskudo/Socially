@@ -1,8 +1,18 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Socially
+
+A social media app clone
+
+# Screenshots
+
+<img src="assets/img/screenshots/home.png" height="600">
+<img src="assets/img/screenshots/messages.png" height="600">
+<img src="assets/img/screenshots/messaging.png" height="600">
+<img src="assets/img/screenshots/profile.png" height="600">
+<img src="assets/img/screenshots/splash.png" height="600">
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 

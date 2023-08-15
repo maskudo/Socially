@@ -1,5 +1,6 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import COLORS from '../../constants/colors';
+import {buttonOptions, face3, postImage} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 import RoundedAvatar from './RoundedAvatar';
 
@@ -13,17 +14,14 @@ export type PostProps = {
 export default function Post({post}: {post: PostProps}) {
   return (
     <View style={styles.postContainer}>
-      <Image
-        source={require('../../../assets/img/home/nature.jpg')}
-        style={styles.image}
-      />
+      <Image source={postImage} style={styles.image} />
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <View style={styles.topLeft}>
             <RoundedAvatar
               dimension={40}
               styles={{borderColor: 'grey'}}
-              image={require('../../../assets/img/profile/face.jpg')}
+              image={face3}
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>{post.createBy}</Text>
@@ -31,9 +29,7 @@ export default function Post({post}: {post: PostProps}) {
             </View>
           </View>
           <View style={styles.topRight}>
-            <Image
-              source={require('../../../assets/img/common/Button-options.png')}
-            />
+            <Image source={buttonOptions} />
           </View>
           <View />
         </View>

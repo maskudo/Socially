@@ -12,6 +12,7 @@ import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
 import {nanoid} from 'nanoid';
+import {buttonAddStory, face1} from '../constants/images';
 
 const post = {
   createdAt: '2 Hours ago',
@@ -40,7 +41,7 @@ export default function Homepage() {
           <View style={styles.storyContainer}>
             <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
               <ImageBackground
-                source={require('../../assets/img/common/ButtonAddStory.png')}
+                source={buttonAddStory}
                 resizeMode="contain"
                 style={styles.storyButtonImage}
               />
@@ -51,7 +52,7 @@ export default function Homepage() {
                 key={elem}
                 style={styles.storyButton}>
                 <ImageBackground
-                  source={require('../../assets/img/profile/face.jpg')}
+                  source={face1}
                   resizeMode="cover"
                   style={styles.storyButtonImage}
                 />
