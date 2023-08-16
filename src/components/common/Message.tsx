@@ -1,5 +1,7 @@
+import {useNavigation} from '@react-navigation/native';
 import {
   ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -15,11 +17,14 @@ type MessageProps = {
   text: string;
 };
 export default function Message({message}: {message: MessageProps}) {
+  const navigation = useNavigation();
+  const handlePressMessage = () => navigation.navigate('Conversations');
+  const handlePressProfile = () => navigation.navigate('Profile');
   return (
     <View style={styles.messageContainer}>
       <View style={styles.outline}>
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={handlePressProfile}
           key={message.id}
           style={styles.roundedButton}>
           <ImageBackground
@@ -29,7 +34,7 @@ export default function Message({message}: {message: MessageProps}) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.textsContainer}>
+      <Pressable style={styles.textContainer} onPress={handlePressMessage}>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{message.name}</Text>
         </View>
@@ -38,7 +43,7 @@ export default function Message({message}: {message: MessageProps}) {
             {message.text}
           </Text>
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 }

@@ -1,4 +1,5 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import COLORS from '../../constants/colors';
 import {buttonOptions, face3, postImage} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
@@ -33,6 +34,35 @@ export default function Post({post}: {post: PostProps}) {
           </View>
           <View />
         </View>
+        <View style={styles.bottomContainer}>
+          <View style={styles.pill}>
+            <Icon
+              name="heart"
+              size={18}
+              color={COLORS.white}
+              style={styles.pillIcon}
+            />
+            <Text style={styles.pillText}>{post.likes.length}</Text>
+          </View>
+          <View style={styles.pill}>
+            <Icon
+              name="message-square"
+              size={18}
+              color={COLORS.white}
+              style={styles.pillIcon}
+            />
+            <Text style={styles.pillText}>{post.comments.length}</Text>
+          </View>
+          <View style={styles.pill}>
+            <Icon
+              name="bookmark"
+              size={18}
+              color={COLORS.white}
+              style={styles.pillIcon}
+            />
+            <Text style={styles.pillText}>{post.saves.length}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -53,6 +83,8 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 20,
+    justifyContent: 'space-between',
+    height: '100%',
   },
   text: {
     ...TYPOGRAPHY.captions,
@@ -81,5 +113,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    paddingHorizontal: 10,
+  },
+  pill: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: 'rgba(229, 229, 229, 0.4)',
+    width: 70,
+    height: 28,
+    borderRadius: 35,
+  },
+  pillText: {
+    ...TYPOGRAPHY.captions,
+    color: COLORS.white,
+    textAlign: 'center',
   },
 });
