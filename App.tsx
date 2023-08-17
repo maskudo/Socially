@@ -11,36 +11,40 @@ import Swipe from './src/screens/Swipe';
 import COLORS from './src/constants/colors';
 import {StyleSheet, View} from 'react-native';
 import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEdge';
+import {Provider} from 'react-redux';
+import {store} from './src/store/store';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={TabScreen}
-          options={() => ({headerShown: false})}
-        />
-        <Stack.Screen
-          name="Conversations"
-          component={Conversations}
-          options={() => ({headerShown: false})}
-        />
-        <Stack.Screen
-          name="Swipe"
-          component={Swipe}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Messaging"
-          component={Messaging}
-          options={() => ({headerShown: false})}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={TabScreen}
+            options={() => ({headerShown: false})}
+          />
+          <Stack.Screen
+            name="Conversations"
+            component={Conversations}
+            options={() => ({headerShown: false})}
+          />
+          <Stack.Screen
+            name="Swipe"
+            component={Swipe}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Messaging"
+            component={Messaging}
+            options={() => ({headerShown: false})}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

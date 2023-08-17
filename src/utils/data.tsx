@@ -1,62 +1,95 @@
-const POST = {
-  createdAt: '2 Hours ago',
-  createBy: 'Dennis Reynolds',
-  comments: ['hello', 'world'],
-  likes: ['apar', 'praful'],
-  saves: ['apar', 'praful'],
-};
+import {nanoid} from 'nanoid';
+
+const POSTS = [
+  {
+    id: nanoid(),
+    createdAt: '3 Hours ago',
+    createBy: 'Dennis Reynolds',
+    comments: ['hello', 'world'],
+    likes: ['apar', 'praful'],
+    saves: ['apar', 'praful'],
+  },
+  {
+    id: nanoid(),
+    createdAt: '4 Hours ago',
+    createBy: 'Apar Gautam',
+    comments: ['hello', 'world'],
+    likes: ['apar', 'praful'],
+    saves: ['apar', 'praful'],
+  },
+  {
+    id: nanoid(),
+    createdAt: '11 Hours ago',
+    createBy: 'Praful Shrestha',
+    comments: ['hello', 'world'],
+    likes: ['apar', 'praful'],
+    saves: ['apar', 'praful'],
+  },
+  {
+    id: nanoid(),
+    createdAt: '6 Hours ago',
+    createBy: 'Manuj Karki',
+    comments: ['hello', 'world'],
+    likes: ['apar', 'praful', 'manuj'],
+    saves: ['apar', 'praful'],
+  },
+];
 const MESSAGES = [
   {
-    id: 1,
+    id: nanoid(),
     name: 'Malenia',
     text: 'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat. Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
   },
   {
-    id: 2,
+    id: nanoid(),
     name: 'Mclardia',
     text: 'Borgar',
   },
   {
-    id: 3,
+    id: nanoid(),
     name: 'Radahn',
     text: 'death ',
   },
   {
-    id: 4,
+    id: nanoid(),
     name: 'Hourah',
     text: 'may thoust thy strhgithqlsk hqoiwf',
   },
   {
-    id: 5,
+    id: nanoid(),
     name: 'Malena',
     text: 'Hello there Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
   },
   {
-    id: 6,
+    id: nanoid(),
     name: 'Melina',
     text: 'arisenow',
   },
 ];
 const CONVERSATION = [
   {
+    id: nanoid(),
     sender: 'Charlie Kelly',
     receiver: 'Malenia',
     text: 'we are going to c da lions',
   },
   {
+    id: nanoid(),
     sender: 'Charlie Kelly',
     receiver: 'Malenia',
     text: 'they are doing a feed thing at the zoo',
   },
   {
+    id: nanoid(),
     sender: 'Malenia',
     receiver: 'Charlie Kelly',
     text: 'when?',
   },
   {
+    id: nanoid(),
     sender: 'Malenia',
     receiver: 'Charlie Kelly',
     text: 'see the lions or sealions? also is matt going to be there?',
   },
 ];
-export {POST, MESSAGES, CONVERSATION};
+export {MESSAGES, CONVERSATION, POSTS};

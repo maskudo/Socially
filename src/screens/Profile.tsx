@@ -1,9 +1,11 @@
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import {useSelector} from 'react-redux';
 import COLORS from '../constants/colors';
 import {face1, postImage} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
 export default function Profile() {
+  const user = useSelector(state => state?.user);
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -36,21 +38,21 @@ export default function Profile() {
                   />
                 </View>
               </View>
-              <Text style={styles.name}>Jane Doe</Text>
-              <Text style={styles.handle}>@janedoe</Text>
+              <Text style={styles.name}>{user.name}</Text>
+              <Text style={styles.handle}>@{user.handle}</Text>
             </View>
             <View style={styles.statistics}>
               <View>
                 <Text style={styles.stat}>Posts</Text>
-                <Text style={styles.number}>35</Text>
+                <Text style={styles.number}>{user?.posts.length}</Text>
               </View>
               <View>
                 <Text style={styles.stat}>Followers</Text>
-                <Text style={styles.number}>123</Text>
+                <Text style={styles.number}>{user?.followers.length}</Text>
               </View>
               <View>
                 <Text style={styles.stat}>Follows</Text>
-                <Text style={styles.number}>654</Text>
+                <Text style={styles.number}>{user?.following.length}</Text>
               </View>
             </View>
             <View style={styles.postIcons}>

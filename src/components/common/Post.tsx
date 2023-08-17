@@ -1,11 +1,13 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
 import {buttonOptions, face3, postImage} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 import RoundedAvatar from './RoundedAvatar';
 
 export type PostProps = {
+  id: string;
   createdAt: string;
   createBy: string;
   comments: string[];
@@ -13,6 +15,7 @@ export type PostProps = {
   saves: string[];
 };
 export default function Post({post}: {post: PostProps}) {
+  const user = useSelector(state => state?.user);
   return (
     <View style={styles.postContainer}>
       <Image source={postImage} style={styles.image} />
@@ -36,30 +39,36 @@ export default function Post({post}: {post: PostProps}) {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.pill}>
-            <Icon
-              name="heart"
-              size={18}
-              color={COLORS.white}
-              style={styles.pillIcon}
-            />
+            <TouchableOpacity>
+              <Icon
+                name="heart"
+                size={18}
+                color={COLORS.white}
+                style={styles.pillIcon}
+              />
+            </TouchableOpacity>
             <Text style={styles.pillText}>{post.likes.length}</Text>
           </View>
           <View style={styles.pill}>
-            <Icon
-              name="message-square"
-              size={18}
-              color={COLORS.white}
-              style={styles.pillIcon}
-            />
+            <TouchableOpacity>
+              <Icon
+                name="message-square"
+                size={18}
+                color={COLORS.white}
+                style={styles.pillIcon}
+              />
+            </TouchableOpacity>
             <Text style={styles.pillText}>{post.comments.length}</Text>
           </View>
           <View style={styles.pill}>
-            <Icon
-              name="bookmark"
-              size={18}
-              color={COLORS.white}
-              style={styles.pillIcon}
-            />
+            <TouchableOpacity>
+              <Icon
+                name="bookmark"
+                size={18}
+                color={COLORS.white}
+                style={styles.pillIcon}
+              />
+            </TouchableOpacity>
             <Text style={styles.pillText}>{post.saves.length}</Text>
           </View>
         </View>

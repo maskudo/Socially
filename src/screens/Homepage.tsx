@@ -13,16 +13,11 @@ import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
 import {nanoid} from 'nanoid';
 import {buttonAddStory, face1} from '../constants/images';
+import {useSelector} from 'react-redux';
 
-const post = {
-  createdAt: '2 Hours ago',
-  createBy: 'Dennis Reynolds',
-  comments: ['hello', 'world'],
-  likes: ['apar', 'praful'],
-  saves: ['apar', 'praful'],
-};
-const posts = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
+const stories = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
 export default function Homepage() {
+  const posts = useSelector(state => state?.post);
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -33,10 +28,10 @@ export default function Homepage() {
       <Text style={styles.feed}>Feed</Text>
       <FlatList
         style={styles.postContainer}
-        data={[1, 2, 3, 4, 5]}
+        data={posts}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
-        renderItem={() => <Post post={post} />}
+        renderItem={({item}) => <Post post={item} />}
         ListHeaderComponent={
           <View style={styles.storyContainer}>
             <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
@@ -46,10 +41,10 @@ export default function Homepage() {
                 style={styles.storyButtonImage}
               />
             </TouchableOpacity>
-            {posts.map(elem => (
+            {stories.map(story => (
               <TouchableOpacity
                 onPress={() => {}}
-                key={elem}
+                key={story}
                 style={styles.storyButton}>
                 <ImageBackground
                   source={face1}
@@ -60,7 +55,7 @@ export default function Homepage() {
             ))}
           </View>
         }
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
       />
     </View>
   );
