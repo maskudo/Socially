@@ -1,9 +1,11 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
 import {buttonOptions, face3, postImage} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
+import {updatePostLikes, updatePostSaves} from '../../slices/postSlice';
+import {likePost, savePost} from '../../slices/userSlice';
 import RoundedAvatar from './RoundedAvatar';
 
 export type PostProps = {
@@ -15,7 +17,16 @@ export type PostProps = {
   saves: string[];
 };
 export default function Post({post}: {post: PostProps}) {
+  const dispatch = useDispatch();
   const user = useSelector(state => state?.user);
+  const handleSave = () => {
+    dispatch(savePost(post.id));
+    dispatch(updatePostSaves({postId: post.id, userId: user.handle}));
+  };
+  const handleLike = () => {
+    dispatch(likePost(post.id));
+    dispatch(updatePostLikes({postId: post.id, userId: user.handle}));
+  };
   return (
     <View style={styles.postContainer}>
       <Image source={postImage} style={styles.image} />
@@ -39,7 +50,7 @@ export default function Post({post}: {post: PostProps}) {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.pill}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleLike}>
               <Icon
                 name="heart"
                 size={18}
@@ -61,7 +72,7 @@ export default function Post({post}: {post: PostProps}) {
             <Text style={styles.pillText}>{post.comments.length}</Text>
           </View>
           <View style={styles.pill}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSave}>
               <Icon
                 name="bookmark"
                 size={18}

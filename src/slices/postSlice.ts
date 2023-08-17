@@ -8,7 +8,15 @@ const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    updatePost: (state, action) => {
+    updatePostSaves: (state, action) => {
+      const {userId, postId} = action.payload;
+      state.forEach(post => {
+        if (post.id === postId) {
+          post.saves.push(userId);
+        }
+      });
+    },
+    updatePostLikes: (state, action) => {
       const {userId, postId} = action.payload;
       state.forEach(post => {
         if (post.id === postId) {
@@ -21,4 +29,4 @@ const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
-export const {updatePost, deletePost} = postSlice.actions;
+export const {updatePostLikes, deletePost, updatePostSaves} = postSlice.actions;
