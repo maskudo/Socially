@@ -7,7 +7,7 @@ import Conversations from './src/screens/Conversations';
 import Homepage from './src/screens/Homepage';
 import Messaging from './src/screens/Messaging';
 import Profile from './src/screens/Profile';
-import Splash from './src/screens/Splash';
+import Swipe from './src/screens/Swipe';
 import COLORS from './src/constants/colors';
 import {StyleSheet, View} from 'react-native';
 import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEdge';
@@ -30,8 +30,8 @@ function App(): JSX.Element {
           options={() => ({headerShown: false})}
         />
         <Stack.Screen
-          name="Splash"
-          component={Splash}
+          name="Swipe"
+          component={Swipe}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -79,12 +79,12 @@ function TabScreen() {
         }}
       />
       <Tab.Screen
-        name="SplashScreen"
-        component={Splash}
+        name="SwipeScreen"
+        component={Swipe}
         listeners={() => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate('Splash');
+            navigation.navigate('Swipe');
           },
         })}
         options={{

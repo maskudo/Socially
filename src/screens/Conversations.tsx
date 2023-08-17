@@ -1,7 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
+import {useRef, useState} from 'react';
 import {
   FlatList,
   ImageBackground,
+  Keyboard,
   StyleSheet,
   Text,
   TextInput,
@@ -19,6 +21,22 @@ import {CONVERSATION} from '../utils/data';
 
 export default function Conversations() {
   const navigation = useNavigation();
+  const [conversations, setConversations] = useState(CONVERSATION);
+  const [currentText, setCurrentText] = useState('');
+  const flatlistRef = useRef(null);
+  const handleEndEditing = () => {
+    Keyboard.dismiss();
+    currentText &&
+      setConversations(oldConversations => [
+        ...oldConversations,
+        {
+          sender: 'Malenia',
+          receiver: 'Charlie Kelly',
+          text: currentText,
+        },
+      ]);
+    setCurrentText('');
+  };
   const goBack = navigation.goBack;
   return (
     <View style={styles.container}>
@@ -46,7 +64,9 @@ export default function Conversations() {
       </View>
       <FlatList
         style={styles.conversationsContainer}
-        data={CONVERSATION}
+        ref={flatlistRef}
+        onContentSizeChange={() => flatlistRef?.current?.scrollToEnd()}
+        data={conversations}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <Conversation conversation={item} />}
@@ -58,9 +78,15 @@ export default function Conversations() {
           <TextInput
             style={styles.textInput}
             placeholder={'Write a message...'}
+            onChangeText={text => setCurrentText(text)}
+            onEndEditing={handleEndEditing}
+            value={currentText}
             placeholderTextColor={COLORS.gray}
+            blurOnSubmit={true}
           />
-          <View style={styles.sendTextButton}>
+          <TouchableOpacity
+            style={styles.sendTextButton}
+            onPress={handleEndEditing}>
             <BlackSquareRoundedEdge
               icon={
                 <Icon
@@ -71,7 +97,7 @@ export default function Conversations() {
                 />
               }
             />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
