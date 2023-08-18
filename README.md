@@ -4,11 +4,13 @@ A social media app clone
 
 # Screenshots
 
+<img src="assets/img/screenshots/swiper1.png" height="600">
+<img src="assets/img/screenshots/swiper2.png" height="600">
 <img src="assets/img/screenshots/home.png" height="600">
-<img src="assets/img/screenshots/messages.png" height="600">
-<img src="assets/img/screenshots/messaging.png" height="600">
 <img src="assets/img/screenshots/profile.png" height="600">
-<img src="assets/img/screenshots/splash.png" height="600">
+<img src="assets/img/screenshots/savedPosts.png" height="600">
+<img src="assets/img/screenshots/messages.png" height="600">
+<img src="assets/img/screenshots/conversation.png" height="600">
 
 # Getting Started
 

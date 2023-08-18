@@ -1,4 +1,12 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {useSelector} from 'react-redux';
 import COLORS from '../constants/colors';
@@ -6,6 +14,8 @@ import {face1, postImage} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
 export default function Profile() {
   const user = useSelector(state => state?.user);
+  const navigation = useNavigation();
+  const handleClickBookmark = () => navigation.navigate('Bookmarks');
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -56,8 +66,12 @@ export default function Profile() {
               </View>
             </View>
             <View style={styles.postIcons}>
-              <Feather name={'image'} size={25} color={COLORS.black} />
-              <Feather name={'bookmark'} size={25} color={COLORS.black} />
+              <TouchableOpacity>
+                <Feather name={'image'} size={25} color={COLORS.black} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleClickBookmark}>
+                <Feather name={'bookmark'} size={25} color={COLORS.black} />
+              </TouchableOpacity>
             </View>
           </View>
         }

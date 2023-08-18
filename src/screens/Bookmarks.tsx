@@ -1,12 +1,11 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import Post from '../components/common/Post';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome6';
 import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
 import {useSelector} from 'react-redux';
 
-export default function SavedList() {
+export default function Bookmarks() {
   const postIds = useSelector(state => state?.user?.savedPosts);
   const allPosts = useSelector(state => state?.post);
   const posts = allPosts.filter(post => postIds.includes(post.id));

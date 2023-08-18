@@ -13,7 +13,7 @@ import {StyleSheet, View} from 'react-native';
 import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEdge';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
-import SavedList from './src/screens/SavedList';
+import Bookmarks from './src/screens/Bookmarks';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -56,14 +56,15 @@ function TabScreen() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: COLORS.blue,
+        tabBarInactiveTintColor: COLORS.black,
       }}>
       <Tab.Screen
         name="Homepage"
         component={Homepage}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({size}) => (
-            <Icon name={'home'} color={COLORS.black} size={size} />
+          tabBarIcon: ({size, color}) => (
+            <Icon name={'home'} color={color} size={size} />
           ),
         }}
       />
@@ -78,8 +79,8 @@ function TabScreen() {
         })}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({size}) => (
-            <Icon name={'message-square'} color={COLORS.black} size={size} />
+          tabBarIcon: ({size, color}) => (
+            <Icon name={'message-square'} color={color} size={size} />
           ),
         }}
       />
@@ -111,12 +112,12 @@ function TabScreen() {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={SavedList}
+        name="Bookmarks"
+        component={Bookmarks}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({size}) => (
-            <Icon name={'heart'} color={COLORS.black} size={size} />
+          tabBarIcon: ({size, color}) => (
+            <Icon name={'heart'} color={color} size={size} />
           ),
         }}
       />
@@ -125,8 +126,8 @@ function TabScreen() {
         component={Profile}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({size}) => (
-            <Icon name={'user'} color={COLORS.black} size={size} />
+          tabBarIcon: ({size, color}) => (
+            <Icon name={'user'} color={color} size={size} />
           ),
         }}
       />
