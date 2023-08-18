@@ -14,7 +14,7 @@ import {MESSAGES} from '../utils/data';
 import Message from '../components/common/Message';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Homepage() {
+export default function Messages() {
   const navigation = useNavigation();
   const goBack = navigation.goBack;
   return (

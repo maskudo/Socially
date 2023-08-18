@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Conversations from './src/screens/Conversations';
 import Homepage from './src/screens/Homepage';
-import Messaging from './src/screens/Messaging';
+import Messages from './src/screens/Messages';
 import Profile from './src/screens/Profile';
 import Swipe from './src/screens/Swipe';
 import COLORS from './src/constants/colors';
@@ -13,6 +13,7 @@ import {StyleSheet, View} from 'react-native';
 import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEdge';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
+import SavedList from './src/screens/SavedList';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -38,8 +39,8 @@ function App(): JSX.Element {
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="Messaging"
-            component={Messaging}
+            name="Messages"
+            component={Messages}
             options={() => ({headerShown: false})}
           />
         </Stack.Navigator>
@@ -67,12 +68,12 @@ function TabScreen() {
         }}
       />
       <Tab.Screen
-        name="Messaging"
-        component={Messaging}
+        name="Messages"
+        component={Messages}
         listeners={() => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate('Messaging');
+            navigation.navigate('Messages');
           },
         })}
         options={{
@@ -111,13 +112,7 @@ function TabScreen() {
       />
       <Tab.Screen
         name="Notifications"
-        component={Conversations}
-        listeners={() => ({
-          tabPress: e => {
-            e.preventDefault();
-            navigation.navigate('Conversations');
-          },
-        })}
+        component={SavedList}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({size}) => (

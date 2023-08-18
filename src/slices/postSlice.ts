@@ -12,7 +12,11 @@ const postSlice = createSlice({
       const {userId, postId} = action.payload;
       state.forEach(post => {
         if (post.id === postId) {
-          post.saves.push(userId);
+          if (post.saves.includes(userId)) {
+            post.saves = post.saves.filter(user => user !== userId);
+          } else {
+            post.saves.push(userId);
+          }
         }
       });
     },
@@ -20,7 +24,11 @@ const postSlice = createSlice({
       const {userId, postId} = action.payload;
       state.forEach(post => {
         if (post.id === postId) {
-          post.likes.push(userId);
+          if (post.likes.includes(userId)) {
+            post.likes = post.likes.filter(user => user !== userId);
+          } else {
+            post.likes.push(userId);
+          }
         }
       });
     },

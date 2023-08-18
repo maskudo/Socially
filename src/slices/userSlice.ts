@@ -27,11 +27,19 @@ const userSlice = createSlice({
     deleteUser: (state, action) => {},
     savePost: (state, action) => {
       const postId = action.payload;
-      state.savedPosts.push(postId);
+      if (!state.savedPosts.includes(postId)) {
+        state.savedPosts.push(postId);
+      } else {
+        state.savedPosts = state.savedPosts.filter(post => post !== postId);
+      }
     },
     likePost: (state, action) => {
       const postId = action.payload;
-      state.likedPosts.push(postId);
+      if (!state.likedPosts.includes(postId)) {
+        state.likedPosts.push(postId);
+      } else {
+        state.likedPosts = state.likedPosts.filter(post => post !== postId);
+      }
     },
   },
 });
