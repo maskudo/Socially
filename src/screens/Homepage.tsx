@@ -33,18 +33,15 @@ export default function Homepage() {
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <Post post={item} />}
         ListHeaderComponent={
-          <View style={styles.storyContainer}>
-            <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
-              <ImageBackground
-                source={buttonAddStory}
-                resizeMode="contain"
-                style={styles.storyButtonImage}
-              />
-            </TouchableOpacity>
-            {stories.map(story => (
+          <FlatList
+            style={styles.storyContainer}
+            data={stories}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => (
               <TouchableOpacity
                 onPress={() => {}}
-                key={story}
+                key={item}
                 style={styles.storyButton}>
                 <ImageBackground
                   source={face1}
@@ -52,8 +49,17 @@ export default function Homepage() {
                   style={styles.storyButtonImage}
                 />
               </TouchableOpacity>
-            ))}
-          </View>
+            )}
+            ListHeaderComponent={
+              <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
+                <ImageBackground
+                  source={buttonAddStory}
+                  resizeMode="contain"
+                  style={styles.storyButtonImage}
+                />
+              </TouchableOpacity>
+            }
+          />
         }
         keyExtractor={item => item.id}
       />
@@ -84,16 +90,12 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.h2Bold,
   },
   storyContainer: {
-    marginVertical: 25,
-    height: 50,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    marginVertical: 20,
   },
   storyButton: {
     height: 56,
     width: 56,
+    marginRight: 30,
     borderRadius: 100,
     borderWidth: 2,
     borderColor: COLORS.blue,

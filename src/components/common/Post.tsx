@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: 350,
     height: 290,
-    marginBottom: 10,
+    marginBottom: 32,
   },
   image: {
     position: 'absolute',
