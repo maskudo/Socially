@@ -1,10 +1,23 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useState} from 'react';
+import {
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
-import {buttonOptions, face3, postImage} from '../../constants/images';
+import {face3, postImage} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
-import {updatePostLikes, updatePostSaves} from '../../slices/postSlice';
+import {
+  deletePost,
+  updatePostLikes,
+  updatePostSaves,
+} from '../../slices/postSlice';
 import {likePost, savePost} from '../../slices/userSlice';
 import RoundedAvatar from './RoundedAvatar';
 
@@ -16,8 +29,10 @@ export type PostProps = {
   likes: string[];
   saves: string[];
 };
+
 export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const user = useSelector(state => state?.user);
   const handleSave = () => {
     dispatch(savePost(post.id));
@@ -26,6 +41,10 @@ export default function Post({post}: {post: PostProps}) {
   const handleLike = () => {
     dispatch(likePost(post.id));
     dispatch(updatePostLikes({postId: post.id, userId: user.handle}));
+  };
+  const handleDeletePost = () => {
+    dispatch(deletePost(post.id));
+    setModalVisible(!modalVisible);
   };
   return (
     <View style={styles.postContainer}>
@@ -44,7 +63,14 @@ export default function Post({post}: {post: PostProps}) {
             </View>
           </View>
           <View style={styles.topRight}>
-            <Image source={buttonOptions} />
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <Icon
+                name="more-vertical"
+                size={18}
+                color={COLORS.white}
+                style={styles.pillIcon}
+              />
+            </TouchableOpacity>
           </View>
           <View />
         </View>
@@ -84,9 +110,43 @@ export default function Post({post}: {post: PostProps}) {
           </View>
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.bottomView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
+              <Text style={styles.textStyle}>Share</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
+              <Text style={styles.textStyle}>Turn Off Commenting</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
+              <Text style={styles.textStyle}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={handleDeletePost}>
+              <Text style={{...styles.textStyle, ...styles.deletePostText}}>
+                Delete{' '}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   postContainer: {
     position: 'relative',
@@ -153,6 +213,43 @@ const styles = StyleSheet.create({
   pillText: {
     ...TYPOGRAPHY.captions,
     color: COLORS.white,
+    textAlign: 'center',
+  },
+  pillIcon: {},
+  bottomView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    width: '90%',
+    marginHorizontal: 20,
+    marginVertical: 10,
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    padding: 1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 20,
+  },
+  button: {
+    backgroundColor: COLORS.white,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.lightgray,
+  },
+  deletePostText: {
+    color: '#FF0000',
+  },
+  textStyle: {
+    ...TYPOGRAPHY.bodyRegular,
+    padding: 10,
+    color: COLORS.blue,
     textAlign: 'center',
   },
 });

@@ -32,7 +32,10 @@ const postSlice = createSlice({
         }
       });
     },
-    deletePost: (state, action) => {},
+    deletePost: (state, action) => {
+      const postId = action.payload;
+      return state.filter(oldPost => postId !== oldPost.id);
+    },
   },
 });
 
