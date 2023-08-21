@@ -9,6 +9,8 @@ A social media app clone
 <img src="assets/img/screenshots/home.png" height="600">
 <img src="assets/img/screenshots/profile.png" height="600">
 <img src="assets/img/screenshots/savedPosts.png" height="600">
+<img src="assets/img/screenshots/addPost.png" height="600">
+<img src="assets/img/screenshots/deletePost.png" height="600">
 <img src="assets/img/screenshots/messages.png" height="600">
 <img src="assets/img/screenshots/conversation.png" height="600">
 

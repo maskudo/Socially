@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   messageContainer: {
-    marginBottom: 40,
+    marginBottom: 100,
     display: 'flex',
   },
   blueContainer: {

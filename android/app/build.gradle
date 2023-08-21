@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.google.gms.google-services' 
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
 
@@ -80,6 +81,8 @@ android {
         applicationId "com.socially"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }

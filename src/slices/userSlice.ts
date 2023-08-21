@@ -41,8 +41,13 @@ const userSlice = createSlice({
         state.likedPosts = state.likedPosts.filter(post => post !== postId);
       }
     },
+    addPostToUser: (state, action) => {
+      const {postId} = action.payload;
+      state.posts.push(postId);
+    },
   },
 });
 
 export default userSlice.reducer;
-export const {updateUser, deleteUser, likePost, savePost} = userSlice.actions;
+export const {updateUser, deleteUser, likePost, savePost, addPostToUser} =
+  userSlice.actions;

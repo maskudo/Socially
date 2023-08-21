@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {
   Image,
   Modal,
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -23,6 +22,7 @@ import RoundedAvatar from './RoundedAvatar';
 
 export type PostProps = {
   id: string;
+  url?: string;
   createdAt: string;
   createBy: string;
   comments: string[];
@@ -48,7 +48,7 @@ export default function Post({post}: {post: PostProps}) {
   };
   return (
     <View style={styles.postContainer}>
-      <Image source={postImage} style={styles.image} />
+      <Image source={{uri: post.url ?? postImage}} style={styles.image} />
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <View style={styles.topLeft}>
@@ -111,7 +111,7 @@ export default function Post({post}: {post: PostProps}) {
         </View>
       </View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -220,12 +220,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0,0,0,0.2)',
   },
   modalView: {
-    width: '90%',
+    width: '98%',
     marginHorizontal: 20,
-    marginVertical: 10,
     backgroundColor: COLORS.white,
     borderRadius: 10,
     padding: 1,

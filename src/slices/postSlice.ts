@@ -36,8 +36,23 @@ const postSlice = createSlice({
       const postId = action.payload;
       return state.filter(oldPost => postId !== oldPost.id);
     },
+    addPost: (state, action) => {
+      const {postId, url, createBy} = action.payload;
+      const post = {
+        id: postId.toString(),
+        url,
+        createdAt: '0 hours ago',
+        createBy,
+        comments: [],
+        likes: [],
+        saves: [],
+      };
+
+      state.unshift(post);
+    },
   },
 });
 
 export default postSlice.reducer;
-export const {updatePostLikes, deletePost, updatePostSaves} = postSlice.actions;
+export const {updatePostLikes, deletePost, updatePostSaves, addPost} =
+  postSlice.actions;

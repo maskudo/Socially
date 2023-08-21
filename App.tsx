@@ -14,6 +14,8 @@ import BlackSquareRoundedEdge from './src/components/common/BlackSquareRoundedEd
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import Bookmarks from './src/screens/Bookmarks';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import AddPost from './src/screens/AddPost';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,6 +41,11 @@ function App(): JSX.Element {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="AddPost"
+            component={AddPost}
+            options={() => ({headerShown: false})}
+          />
+          <Stack.Screen
             name="Messages"
             component={Messages}
             options={() => ({headerShown: false})}
@@ -57,6 +64,7 @@ function TabScreen() {
         headerShown: false,
         tabBarActiveTintColor: COLORS.blue,
         tabBarInactiveTintColor: COLORS.black,
+        tabBarStyle: styles.tabBarStyle,
       }}>
       <Tab.Screen
         name="Homepage"
@@ -90,7 +98,13 @@ function TabScreen() {
         listeners={() => ({
           tabPress: e => {
             e.preventDefault();
-            navigation.navigate('Swipe');
+            ImageCropPicker.openPicker({
+              cropping: false,
+            })
+              .then(image => {
+                navigation.navigate('AddPost', {image});
+              })
+              .catch(e => console.log(e));
           },
         })}
         options={{
@@ -117,7 +131,7 @@ function TabScreen() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({size, color}) => (
-            <Icon name={'heart'} color={color} size={size} />
+            <Icon name={'bookmark'} color={color} size={size} />
           ),
         }}
       />
@@ -141,6 +155,12 @@ const styles = StyleSheet.create({
   },
   addPostIcon: {
     transform: [{rotate: '-45deg'}],
+  },
+  tabBarStyle: {
+    borderTopWidth: 1,
+    borderTopColor: COLORS.white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });
 

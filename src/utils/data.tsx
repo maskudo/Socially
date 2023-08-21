@@ -8,6 +8,7 @@ const POSTS = [
     comments: ['hello', 'world'],
     likes: ['apar', 'praful'],
     saves: ['apar', 'praful'],
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg/1200px-Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg',
   },
   {
     id: nanoid(),
@@ -16,6 +17,7 @@ const POSTS = [
     comments: ['hello', 'world'],
     likes: ['apar', 'praful'],
     saves: ['apar', 'praful'],
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg/1200px-Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg',
   },
   {
     id: nanoid(),
@@ -24,6 +26,7 @@ const POSTS = [
     comments: ['hello', 'world'],
     likes: ['apar', 'praful'],
     saves: ['apar', 'praful'],
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg/1200px-Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg',
   },
   {
     id: nanoid(),
@@ -32,6 +35,7 @@ const POSTS = [
     comments: ['hello', 'world'],
     likes: ['apar', 'praful', 'manuj'],
     saves: ['apar', 'praful'],
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg/1200px-Post_Danmark_Post_boxes_in_F%C3%A5borg%2C_Denmark.jpg',
   },
 ];
 const MESSAGES = [
