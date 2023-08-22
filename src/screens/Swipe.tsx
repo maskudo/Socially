@@ -32,7 +32,7 @@ export default function Swipe() {
         <View style={styles.next}>
           <TouchableOpacity
             style={styles.nextText}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Login')}
           />
           <Text style={styles.nextText}>
             Next {'  '}
@@ -53,7 +53,7 @@ export default function Swipe() {
         <View style={styles.next}>
           <TouchableOpacity
             style={styles.nextText}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.navigate('Login')}>
             <Text
               style={{
                 ...styles.nextText,
