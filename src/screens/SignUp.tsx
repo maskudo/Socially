@@ -1,11 +1,19 @@
 import {useState} from 'react';
-import {Button, Keyboard, StyleSheet, TextInput, View} from 'react-native';
+import {
+  Button,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import COLORS from '../constants/colors';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const handleEndEditing = () => {
     Keyboard.dismiss();
     if (email && password) {
@@ -14,16 +22,14 @@ export default function SignUp() {
         .then(() => {
           console.log('User account created & signed in!');
         })
-        .catch(error => {
-          if (error.code === 'auth/email-already-in-use') {
-            console.log('That email address is already in use!');
+        .catch(err => {
+          if (err.code === 'auth/email-already-in-use') {
+            setError('That email address is already in use!');
           }
 
-          if (error.code === 'auth/invalid-email') {
-            console.log('That email address is invalid!');
+          if (err.code === 'auth/invalid-email') {
+            setError('That email address is invalid!');
           }
-
-          console.error(error);
         });
     }
     setPassword('');
@@ -46,6 +52,7 @@ export default function SignUp() {
         placeholderTextColor={COLORS.black}
         blurOnSubmit={true}
       />
+      {error && <Text style={styles.error}>{error}</Text>}
       <Button onPress={handleEndEditing} title={'Sign Up'} />
     </View>
   );
@@ -56,5 +63,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 10,
     color: COLORS.black,
+  },
+  error: {
+    color: '#ff0000',
   },
 });

@@ -1,22 +1,24 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 type User = {
-  name: string;
-  handle: string;
-  posts: string[];
-  likedPosts: string[];
-  savedPosts: string[];
-  followers: string[];
-  following: string[];
+  displayName?: string;
+  handle?: string;
+  posts?: string[];
+  likedPosts?: string[];
+  savedPosts?: string[];
+  followers?: string[];
+  following?: string[];
+  email: string;
 };
 const initialState: User = {
-  name: 'Malenia',
+  displayName: 'Malenia',
   handle: 'malenia',
   posts: [],
   likedPosts: [],
   savedPosts: [],
   followers: ['apar', 'praful'],
   following: ['manuj'],
+  email: 'malenia@email.com',
 };
 
 const userSlice = createSlice({
@@ -24,30 +26,50 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {},
-    deleteUser: (state, action) => {},
+    setUserFromAuth: (state, action) => {
+      const {
+        displayName,
+        email,
+        handle,
+        posts,
+        likedPosts,
+        savedPosts,
+        followers,
+        following,
+      } = action.payload;
+      console.log(action);
+      state.displayName = displayName;
+      state.email = email;
+      state.handle = handle;
+      state.posts = posts;
+      state.likedPosts = likedPosts;
+      state.savedPosts = savedPosts;
+      state.followers = followers;
+      state.following = following;
+    },
     savePost: (state, action) => {
       const postId = action.payload;
-      if (!state.savedPosts.includes(postId)) {
-        state.savedPosts.push(postId);
+      if (!state.savedPosts?.includes(postId)) {
+        state.savedPosts?.push(postId);
       } else {
         state.savedPosts = state.savedPosts.filter(post => post !== postId);
       }
     },
     likePost: (state, action) => {
       const postId = action.payload;
-      if (!state.likedPosts.includes(postId)) {
-        state.likedPosts.push(postId);
+      if (!state.likedPosts?.includes(postId)) {
+        state.likedPosts?.push(postId);
       } else {
         state.likedPosts = state.likedPosts.filter(post => post !== postId);
       }
     },
     addPostToUser: (state, action) => {
       const {postId} = action.payload;
-      state.posts.push(postId);
+      state.posts?.push(postId);
     },
   },
 });
 
 export default userSlice.reducer;
-export const {updateUser, deleteUser, likePost, savePost, addPostToUser} =
+export const {updateUser, setUserFromAuth, likePost, savePost, addPostToUser} =
   userSlice.actions;

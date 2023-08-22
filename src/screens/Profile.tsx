@@ -48,21 +48,29 @@ export default function Profile() {
                   />
                 </View>
               </View>
-              <Text style={styles.name}>{user.name}</Text>
-              <Text style={styles.handle}>@{user.handle}</Text>
+              <Text style={styles.name}>
+                {user.displayName ?? user.email.split('@')[0]}
+              </Text>
+              <Text style={styles.handle}>
+                @{user.handle ?? user.email.split('@')[0]}
+              </Text>
             </View>
             <View style={styles.statistics}>
               <View>
                 <Text style={styles.stat}>Posts</Text>
-                <Text style={styles.number}>{user?.posts.length}</Text>
+                <Text style={styles.number}>{user?.posts?.length ?? 0}</Text>
               </View>
               <View>
                 <Text style={styles.stat}>Followers</Text>
-                <Text style={styles.number}>{user?.followers.length}</Text>
+                <Text style={styles.number}>
+                  {user?.followers?.length ?? 0}
+                </Text>
               </View>
               <View>
                 <Text style={styles.stat}>Follows</Text>
-                <Text style={styles.number}>{user?.following.length}</Text>
+                <Text style={styles.number}>
+                  {user?.following?.length ?? 0}
+                </Text>
               </View>
             </View>
             <View style={styles.postIcons}>

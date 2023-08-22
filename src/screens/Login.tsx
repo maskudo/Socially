@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import COLORS from '../constants/colors';
+import {setUserFromAuth} from '../slices/userSlice';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -19,8 +20,9 @@ export default function Login() {
     if (email && password) {
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => {
+        .then(user => {
           console.log('User account created & logged in!');
+          setUserFromAuth(user);
         })
         .catch(err => {
           if (err.code === 'auth/user-not-found') {
@@ -72,6 +74,6 @@ const styles = StyleSheet.create({
     color: COLORS.black,
   },
   error: {
-    color: COLORS.blue,
+    color: '#ff0000',
   },
 });
