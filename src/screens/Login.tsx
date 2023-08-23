@@ -22,7 +22,6 @@ export default function Login() {
         .signInWithEmailAndPassword(email, password)
         .then(user => {
           console.log('User account created & logged in!');
-          setUserFromAuth(user);
         })
         .catch(err => {
           if (err.code === 'auth/user-not-found') {

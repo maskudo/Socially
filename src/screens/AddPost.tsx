@@ -5,15 +5,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../constants/colors';
 import TYPOGRAPHY from '../constants/typography';
 import {addPost} from '../slices/postSlice';
+import storage from '@react-native-firebase/storage';
 
 export default function AddPost({route}) {
   const {image} = route.params;
   const user = useSelector(state => state.user.handle);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const postImage = () => {
+  const postImage = async () => {
     const postId = nanoid();
-    dispatch(addPost({postId, url: image.path, createBy: user}));
+    const filename = nanoid().toString();
+    const reference = storage().ref(filename);
+    await storage().ref(filename).putFile(image.path);
+    let download_link = await reference.getDownloadURL();
+    console.log({download_link});
+    dispatch(addPost({postId, url: download_link, createdBy: user}));
     navigation.navigate('Home');
   };
   return (

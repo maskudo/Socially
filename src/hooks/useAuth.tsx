@@ -10,14 +10,18 @@ export function useAuth() {
     const unsub = auth().onAuthStateChanged(loggedUser => {
       if (loggedUser) {
         setUser(loggedUser);
-        console.log({loggedUser});
-        dispatch(setUserFromAuth(loggedUser));
+        dispatch(
+          setUserFromAuth({
+            email: loggedUser.email,
+            displayName: loggedUser.displayName,
+          }),
+        );
       } else {
         setUser(undefined);
       }
     });
     return unsub;
-  }, []);
+  }, [dispatch]);
   return {
     user,
   };

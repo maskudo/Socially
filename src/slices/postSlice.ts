@@ -37,12 +37,12 @@ const postSlice = createSlice({
       return state.filter(oldPost => postId !== oldPost.id);
     },
     addPost: (state, action) => {
-      const {postId, url, createBy} = action.payload;
+      const {postId, url, createdBy} = action.payload;
       const post = {
         id: postId.toString(),
         url,
         createdAt: '0 hours ago',
-        createBy,
+        createdBy,
         comments: [],
         likes: [],
         saves: [],

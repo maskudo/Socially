@@ -24,7 +24,7 @@ export type PostProps = {
   id: string;
   url?: string;
   createdAt: string;
-  createBy: string;
+  createdBy: string;
   comments: string[];
   likes: string[];
   saves: string[];
@@ -58,7 +58,7 @@ export default function Post({post}: {post: PostProps}) {
               image={face3}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.text}>{post.createBy}</Text>
+              <Text style={styles.text}>{post.createdBy}</Text>
               <Text style={styles.text}>{post.createdAt}</Text>
             </View>
           </View>
