@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {useState} from 'react';
 import {
   Image,
@@ -34,6 +35,8 @@ export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const user = useSelector(state => state?.user);
+  createdAt = moment().startOf(post.createdAt).fromNow();
+  console.log({time: post.createdAt});
   const handleSave = () => {
     dispatch(savePost(post.id));
     dispatch(updatePostSaves({postId: post.id, userId: user.handle}));
@@ -46,9 +49,10 @@ export default function Post({post}: {post: PostProps}) {
     dispatch(deletePost(post.id));
     setModalVisible(!modalVisible);
   };
+
   return (
     <View style={styles.postContainer}>
-      <Image source={{uri: post.url ?? postImage}} style={styles.image} />
+      <Image source={{uri: post.url}} style={styles.image} />
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <View style={styles.topLeft}>
@@ -59,7 +63,7 @@ export default function Post({post}: {post: PostProps}) {
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>{post.createdBy}</Text>
-              <Text style={styles.text}>{post.createdAt}</Text>
+              <Text style={styles.text}>{createdAt}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -84,7 +88,7 @@ export default function Post({post}: {post: PostProps}) {
                 style={styles.pillIcon}
               />
             </TouchableOpacity>
-            <Text style={styles.pillText}>{post.likes.length}</Text>
+            <Text style={styles.pillText}>{post?.likes?.length}</Text>
           </View>
           <View style={styles.pill}>
             <TouchableOpacity>
@@ -95,7 +99,7 @@ export default function Post({post}: {post: PostProps}) {
                 style={styles.pillIcon}
               />
             </TouchableOpacity>
-            <Text style={styles.pillText}>{post.comments.length}</Text>
+            <Text style={styles.pillText}>{post?.comments?.length}</Text>
           </View>
           <View style={styles.pill}>
             <TouchableOpacity onPress={handleSave}>
@@ -106,7 +110,7 @@ export default function Post({post}: {post: PostProps}) {
                 style={styles.pillIcon}
               />
             </TouchableOpacity>
-            <Text style={styles.pillText}>{post.saves.length}</Text>
+            <Text style={styles.pillText}>{post?.saves?.length}</Text>
           </View>
         </View>
       </View>

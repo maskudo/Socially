@@ -6,7 +6,7 @@ const initialState: PostProps[] = POSTS;
 
 const postSlice = createSlice({
   name: 'post',
-  initialState,
+  initialState: [],
   reducers: {
     updatePostSaves: (state, action) => {
       const {userId, postId} = action.payload;
@@ -37,22 +37,15 @@ const postSlice = createSlice({
       return state.filter(oldPost => postId !== oldPost.id);
     },
     addPost: (state, action) => {
-      const {postId, url, createdBy} = action.payload;
-      const post = {
-        id: postId.toString(),
-        url,
-        createdAt: '0 hours ago',
-        createdBy,
-        comments: [],
-        likes: [],
-        saves: [],
-      };
-
+      const post = action.payload;
       state.unshift(post);
+    },
+    setPosts: (_, action) => {
+      return action.payload;
     },
   },
 });
 
 export default postSlice.reducer;
-export const {updatePostLikes, deletePost, updatePostSaves, addPost} =
+export const {updatePostLikes, deletePost, updatePostSaves, addPost, setPosts} =
   postSlice.actions;

@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import COLORS from '../constants/colors';
 
 export default function SignUp() {
@@ -21,6 +22,17 @@ export default function SignUp() {
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
           console.log('User account created & signed in!');
+          const collection = firestore().collection('Users');
+          collection.add({
+            displayName: email.split('@')[0],
+            handle: email.split('@')[0],
+            posts: [],
+            likedPosts: [],
+            savedPosts: [],
+            followers: [],
+            following: [],
+            email: email,
+          });
         })
         .catch(err => {
           if (err.code === 'auth/email-already-in-use') {

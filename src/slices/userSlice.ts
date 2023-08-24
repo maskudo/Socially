@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 type User = {
+  id: string;
   displayName?: string;
   handle?: string;
   posts?: string[];
@@ -11,14 +12,15 @@ type User = {
   email: string;
 };
 const initialState: User = {
-  displayName: 'Malenia',
-  handle: 'malenia',
+  id: '',
+  displayName: '',
+  handle: '',
   posts: [],
   likedPosts: [],
   savedPosts: [],
-  followers: ['apar', 'praful'],
-  following: ['manuj'],
-  email: 'malenia@email.com',
+  followers: [],
+  following: [],
+  email: '',
 };
 
 const userSlice = createSlice({
@@ -37,7 +39,6 @@ const userSlice = createSlice({
         followers,
         following,
       } = action.payload;
-      console.log(action);
       state.displayName = displayName;
       state.email = email;
       state.handle = handle;
