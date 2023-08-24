@@ -7,13 +7,14 @@ import {
   View,
 } from 'react-native';
 import Post from '../components/common/Post';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome6';
+import Icon from 'react-native-vector-icons/Feather';
 import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
 import {nanoid} from 'nanoid';
 import {buttonAddStory, face1} from '../constants/images';
 import {useSelector} from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
 const stories = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
 export default function Homepage() {
@@ -23,7 +24,9 @@ export default function Homepage() {
       <View style={styles.blueContainer} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Socially</Text>
-        <FontAwesomeIcon name={'bell'} style={styles.headerIcon} solid />
+        <TouchableOpacity onPress={() => auth().signOut()}>
+          <Icon name={'log-out'} style={styles.headerIcon} />
+        </TouchableOpacity>
       </View>
       <Text style={styles.feed}>Feed</Text>
       <FlatList
