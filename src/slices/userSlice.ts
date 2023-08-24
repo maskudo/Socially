@@ -38,6 +38,7 @@ const userSlice = createSlice({
         savedPosts,
         followers,
         following,
+        id,
       } = action.payload;
       state.displayName = displayName;
       state.email = email;
@@ -47,6 +48,7 @@ const userSlice = createSlice({
       state.savedPosts = savedPosts;
       state.followers = followers;
       state.following = following;
+      state.id = id;
     },
     savePost: (state, action) => {
       const postId = action.payload;

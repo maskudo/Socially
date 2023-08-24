@@ -10,7 +10,7 @@ import firestore from '@react-native-firebase/firestore';
 
 export default function AddPost({route}) {
   const {image} = route.params;
-  const user = useSelector(state => state.user.handle);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const postImage = async () => {
@@ -22,7 +22,7 @@ export default function AddPost({route}) {
     const postRef = await postsCollection.add({
       url: download_link,
       createdAt: firestore.Timestamp.now().toDate(),
-      createdBy: user,
+      createdBy: user.handle,
       comments: [],
       likes: [],
       saves: [],
@@ -34,6 +34,10 @@ export default function AddPost({route}) {
         id: post.id,
       }),
     );
+    const userRef = firestore().collection('Users').doc(user.id);
+    await userRef.update({
+      posts: firestore.FieldValue.arrayUnion(post.id),
+    });
     navigation.navigate('Home');
   };
   return (

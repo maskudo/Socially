@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -9,33 +10,43 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {useSelector} from 'react-redux';
+import {PostProps} from '../components/common/Post';
 import COLORS from '../constants/colors';
-import {face1, postImage} from '../constants/images';
+import {face1} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
+import {getPostsByUser} from '../utils/functions';
 export default function Profile() {
   const user = useSelector(state => state?.user);
   const navigation = useNavigation();
   const handleClickBookmark = () => navigation.navigate('Bookmarks');
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const getPosts = async () => {
+      const fetchedPosts = await getPostsByUser(user.handle);
+      setPosts(fetchedPosts);
+    };
+    getPosts();
+  }, [user]);
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
       <FlatList
         style={styles.postsContainer}
-        data={[1, 2, 3, 4, 5]}
+        data={posts}
         numColumns={2}
         columnWrapperStyle={styles.column}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
-        renderItem={() => (
+        renderItem={({item}: {item: PostProps}) => (
           <View style={styles.postImageContainer}>
             <Image
-              source={postImage}
+              source={{uri: item.url}}
               resizeMode="cover"
               style={styles.postImage}
             />
           </View>
         )}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         ListHeaderComponent={
           <View>
             <View style={styles.profile}>
