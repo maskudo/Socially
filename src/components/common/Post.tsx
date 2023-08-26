@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {
   Image,
   Modal,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,14 +12,14 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
-import {face3, postImage} from '../../constants/images';
+import {face3} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 import {
   deletePost,
   updatePostLikes,
   updatePostSaves,
 } from '../../slices/postSlice';
-import {likePost, savePost} from '../../slices/userSlice';
+import {updateUserLikes, updateUserSaves} from '../../slices/userSlice';
 import RoundedAvatar from './RoundedAvatar';
 
 export type PostProps = {
@@ -35,15 +36,38 @@ export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const user = useSelector(state => state?.user);
-  createdAt = moment().startOf(post.createdAt).fromNow();
-  console.log({time: post.createdAt});
+  const createdAt = moment(post.createdAt).fromNow();
   const handleSave = () => {
-    dispatch(savePost(post.id));
-    dispatch(updatePostSaves({postId: post.id, userId: user.handle}));
+    dispatch(
+      updateUserSaves({
+        postId: post.id,
+        userId: user.id,
+        add: !user.savedPosts.includes(post.id),
+      }),
+    );
+    dispatch(
+      updatePostSaves({
+        postId: post.id,
+        userId: user.handle,
+        add: !post.saves.includes(user.handle),
+      }),
+    );
   };
   const handleLike = () => {
-    dispatch(likePost(post.id));
-    dispatch(updatePostLikes({postId: post.id, userId: user.handle}));
+    dispatch(
+      updateUserLikes({
+        postId: post.id,
+        userId: user.id,
+        add: !user.likedPosts.includes(post.id),
+      }),
+    );
+    dispatch(
+      updatePostLikes({
+        postId: post.id,
+        userId: user.handle,
+        add: !post.likes.includes(user.handle),
+      }),
+    );
   };
   const handleDeletePost = () => {
     dispatch(deletePost(post.id));
@@ -121,7 +145,9 @@ export default function Post({post}: {post: PostProps}) {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.bottomView}>
+        <Pressable
+          style={styles.bottomView}
+          onPress={() => setModalVisible(false)}>
           <View style={styles.modalView}>
             <TouchableOpacity style={styles.button} onPress={() => {}}>
               <Text style={styles.textStyle}>Share</Text>
@@ -132,20 +158,22 @@ export default function Post({post}: {post: PostProps}) {
             <TouchableOpacity style={styles.button} onPress={() => {}}>
               <Text style={styles.textStyle}>Edit</Text>
             </TouchableOpacity>
+            {user.handle === post.createdBy && (
+              <TouchableOpacity
+                style={[styles.button]}
+                onPress={handleDeletePost}>
+                <Text style={{...styles.textStyle, ...styles.deletePostText}}>
+                  Delete{' '}
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={[styles.button]}
-              onPress={handleDeletePost}>
-              <Text style={{...styles.textStyle, ...styles.deletePostText}}>
-                Delete{' '}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={styles.textStyle}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Pressable>
       </Modal>
     </View>
   );

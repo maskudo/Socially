@@ -1,37 +1,61 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import firestore from '@react-native-firebase/firestore';
 import {PostProps} from '../components/common/Post';
-import {POSTS} from '../utils/data';
+import {ToastAndroid} from 'react-native';
 
-const initialState: PostProps[] = POSTS;
+const initialState: PostProps[] = [];
+export const updatePostLikes = createAsyncThunk(
+  'post/likes',
+  async ({
+    userId,
+    postId,
+    add,
+  }: {
+    userId: string;
+    postId: string;
+    add: boolean;
+  }) => {
+    const userRef = firestore().collection('Posts').doc(postId);
+    if (add) {
+      await userRef.update({
+        likes: firestore.FieldValue.arrayUnion(userId),
+      });
+    } else {
+      await userRef.update({
+        likes: firestore.FieldValue.arrayRemove(userId),
+      });
+    }
+  },
+);
+
+export const updatePostSaves = createAsyncThunk(
+  'post/saves',
+  async ({
+    userId,
+    postId,
+    add,
+  }: {
+    userId: string;
+    postId: string;
+    add: boolean;
+  }) => {
+    const userRef = firestore().collection('Posts').doc(postId);
+    if (add) {
+      await userRef.update({
+        saves: firestore.FieldValue.arrayUnion(userId),
+      });
+    } else {
+      await userRef.update({
+        saves: firestore.FieldValue.arrayRemove(userId),
+      });
+    }
+  },
+);
 
 const postSlice = createSlice({
   name: 'post',
-  initialState: [],
+  initialState,
   reducers: {
-    updatePostSaves: (state, action) => {
-      const {userId, postId} = action.payload;
-      state.forEach(post => {
-        if (post.id === postId) {
-          if (post.saves.includes(userId)) {
-            post.saves = post.saves.filter(user => user !== userId);
-          } else {
-            post.saves.push(userId);
-          }
-        }
-      });
-    },
-    updatePostLikes: (state, action) => {
-      const {userId, postId} = action.payload;
-      state.forEach(post => {
-        if (post.id === postId) {
-          if (post.likes.includes(userId)) {
-            post.likes = post.likes.filter(user => user !== userId);
-          } else {
-            post.likes.push(userId);
-          }
-        }
-      });
-    },
     deletePost: (state, action) => {
       const postId = action.payload;
       return state.filter(oldPost => postId !== oldPost.id);
@@ -44,8 +68,28 @@ const postSlice = createSlice({
       return action.payload;
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(updatePostLikes.pending, () => {})
+      .addCase(updatePostLikes.rejected, () => {
+        ToastAndroid.showWithGravity(
+          'Error updating likes',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      })
+      .addCase(updatePostLikes.fulfilled, () => {})
+      .addCase(updatePostSaves.pending, () => {})
+      .addCase(updatePostSaves.rejected, () => {
+        ToastAndroid.showWithGravity(
+          'Error updating Saves',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      })
+      .addCase(updatePostSaves.fulfilled, () => {});
+  },
 });
 
 export default postSlice.reducer;
-export const {updatePostLikes, deletePost, updatePostSaves, addPost, setPosts} =
-  postSlice.actions;
+export const {deletePost, addPost, setPosts} = postSlice.actions;

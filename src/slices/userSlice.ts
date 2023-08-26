@@ -1,5 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
-
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import firestore from '@react-native-firebase/firestore';
+import {ToastAndroid} from 'react-native';
 type User = {
   id: string;
   displayName?: string;
@@ -22,6 +23,53 @@ const initialState: User = {
   following: [],
   email: '',
 };
+
+export const updateUserLikes = createAsyncThunk(
+  'uses/likes',
+  async ({
+    userId,
+    postId,
+    add,
+  }: {
+    userId: string;
+    postId: string;
+    add: boolean;
+  }) => {
+    const userRef = firestore().collection('Users').doc(userId);
+    if (add) {
+      await userRef.update({
+        likedPosts: firestore.FieldValue.arrayUnion(postId),
+      });
+    } else {
+      await userRef.update({
+        likedPosts: firestore.FieldValue.arrayRemove(postId),
+      });
+    }
+  },
+);
+export const updateUserSaves = createAsyncThunk(
+  'uses/saves',
+  async ({
+    userId,
+    postId,
+    add,
+  }: {
+    userId: string;
+    postId: string;
+    add: boolean;
+  }) => {
+    const userRef = firestore().collection('Users').doc(userId);
+    if (add) {
+      await userRef.update({
+        savedPosts: firestore.FieldValue.arrayUnion(postId),
+      });
+    } else {
+      await userRef.update({
+        savedPosts: firestore.FieldValue.arrayRemove(postId),
+      });
+    }
+  },
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -70,6 +118,27 @@ const userSlice = createSlice({
       const {postId} = action.payload;
       state.posts?.push(postId);
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(updateUserLikes.pending, () => {})
+      .addCase(updateUserLikes.rejected, () => {
+        ToastAndroid.showWithGravity(
+          'Error updating likes',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      })
+      .addCase(updateUserLikes.fulfilled, () => {})
+      .addCase(updateUserSaves.pending, () => {})
+      .addCase(updateUserSaves.rejected, () => {
+        ToastAndroid.showWithGravity(
+          'Error updating Saves',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      })
+      .addCase(updateUserSaves.fulfilled, () => {});
   },
 });
 
