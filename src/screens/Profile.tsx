@@ -3,23 +3,47 @@ import {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {PostProps} from '../components/common/Post';
 import COLORS from '../constants/colors';
-import {face1} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
 import {RootState} from '../store/store';
 import {getPostsByUser} from '../utils/functions';
+import storage from '@react-native-firebase/storage';
+import {nanoid} from '@reduxjs/toolkit';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {updateUserProfilePicture} from '../slices/userSlice';
+
 export default function Profile() {
   const user = useSelector((state: RootState) => state?.user);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const handleClickBookmark = () => navigation.navigate('Bookmarks');
+
+  const handleClickProfileImage = async () => {
+    const image = await ImageCropPicker.openPicker({
+      cropping: false,
+    });
+    const filename = nanoid().toString();
+    const reference = storage().ref(filename);
+    const fileRef = storage().ref(filename);
+    await fileRef.putFile(image.path);
+    const download_link = await reference.getDownloadURL();
+    dispatch(
+      updateUserProfilePicture({
+        imageUrl: download_link,
+        userId: user.id,
+        callback: () => fileRef.delete(),
+      }),
+    );
+  };
   const [posts, setPosts] = useState<PostProps[]>([]);
   useEffect(() => {
     const getPosts = async () => {
@@ -54,13 +78,15 @@ export default function Profile() {
           <View>
             <View style={styles.profile}>
               <View style={styles.imageContainerOutline}>
-                <View style={styles.imageContainer}>
+                <Pressable
+                  style={styles.imageContainer}
+                  onPress={handleClickProfileImage}>
                   <Image
-                    source={face1}
+                    source={{uri: user.url}}
                     style={styles.profileImage}
                     resizeMode="cover"
                   />
-                </View>
+                </Pressable>
               </View>
               <Text style={styles.name}>
                 {user.displayName ?? user.email.split('@')[0]}

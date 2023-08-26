@@ -18,7 +18,8 @@ export default function AddPost({route}) {
     const filename = nanoid().toString();
     const reference = storage().ref(filename);
     const postsCollection = firestore().collection('Posts');
-    await storage().ref(filename).putFile(image.path);
+    const fileRef = storage().ref(filename);
+    await fileRef.putFile(image.path);
     let download_link = await reference.getDownloadURL();
     const postRef = await postsCollection.add({
       url: download_link,
@@ -36,9 +37,13 @@ export default function AddPost({route}) {
       }),
     );
     const userRef = firestore().collection('Users').doc(user.id);
-    await userRef.update({
-      posts: firestore.FieldValue.arrayUnion(post.id),
-    });
+    try {
+      await userRef.update({
+        posts: firestore.FieldValue.arrayUnion(post.id),
+      });
+    } catch (e) {
+      fileRef.delete();
+    }
     navigation.navigate('Home');
   };
   return (

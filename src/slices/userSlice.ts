@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore from '@react-native-firebase/firestore';
 import {ToastAndroid} from 'react-native';
+import {defaultProfilePic} from '../constants/images';
 type User = {
   id: string;
   displayName?: string;
@@ -10,6 +11,7 @@ type User = {
   savedPosts?: string[];
   followers?: string[];
   following?: string[];
+  url?: string;
   email: string;
 };
 const initialState: User = {
@@ -21,6 +23,7 @@ const initialState: User = {
   savedPosts: [],
   followers: [],
   following: [],
+  url: defaultProfilePic,
   email: '',
 };
 
@@ -70,6 +73,27 @@ export const updateUserSaves = createAsyncThunk(
     }
   },
 );
+export const updateUserProfilePicture = createAsyncThunk(
+  'uses/saves',
+  async ({
+    imageUrl,
+    userId,
+    callback,
+  }: {
+    userId: string;
+    imageUrl: string;
+    callback: () => {};
+  }) => {
+    const userRef = firestore().collection('Users').doc(userId);
+    try {
+      await userRef.update({
+        url: imageUrl,
+      });
+    } catch (e) {
+      callback();
+    }
+  },
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -87,6 +111,7 @@ const userSlice = createSlice({
         followers,
         following,
         id,
+        url,
       } = action.payload;
       state.displayName = displayName;
       state.email = email;
@@ -97,6 +122,7 @@ const userSlice = createSlice({
       state.followers = followers;
       state.following = following;
       state.id = id;
+      state.url = url ?? state.url;
     },
   },
   extraReducers: builder => {

@@ -12,7 +12,6 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
-import {face3} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 import {
   deletePost,
@@ -32,6 +31,7 @@ export type PostProps = {
   saves: string[];
 };
 
+// TODO: red heart when post liked
 export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
@@ -83,7 +83,7 @@ export default function Post({post}: {post: PostProps}) {
             <RoundedAvatar
               dimension={40}
               styles={{borderColor: 'grey'}}
-              image={face3}
+              image={{uri: user.url}}
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>{post.createdBy}</Text>
@@ -109,7 +109,7 @@ export default function Post({post}: {post: PostProps}) {
                 name="heart"
                 size={18}
                 color={COLORS.white}
-                style={styles.pillIcon}
+                style={[styles.pillIcon]}
               />
             </TouchableOpacity>
             <Text style={styles.pillText}>{post?.likes?.length}</Text>
