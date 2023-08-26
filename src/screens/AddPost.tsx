@@ -7,10 +7,11 @@ import TYPOGRAPHY from '../constants/typography';
 import {addPost} from '../slices/postSlice';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import {RootState} from '../store/store';
 
 export default function AddPost({route}) {
   const {image} = route.params;
-  const user = useSelector(state => state.user);
+  const user = useSelector((state: RootState) => state?.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const postImage = async () => {

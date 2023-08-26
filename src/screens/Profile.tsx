@@ -14,16 +14,19 @@ import {PostProps} from '../components/common/Post';
 import COLORS from '../constants/colors';
 import {face1} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
+import {RootState} from '../store/store';
 import {getPostsByUser} from '../utils/functions';
 export default function Profile() {
-  const user = useSelector(state => state?.user);
+  const user = useSelector((state: RootState) => state?.user);
   const navigation = useNavigation();
   const handleClickBookmark = () => navigation.navigate('Bookmarks');
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<PostProps[]>([]);
   useEffect(() => {
     const getPosts = async () => {
-      const fetchedPosts = await getPostsByUser(user.handle);
-      setPosts(fetchedPosts);
+      if (user?.handle) {
+        const fetchedPosts = await getPostsByUser(user.handle);
+        setPosts(fetchedPosts);
+      }
     };
     getPosts();
   }, [user]);

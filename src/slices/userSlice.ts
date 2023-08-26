@@ -98,26 +98,6 @@ const userSlice = createSlice({
       state.following = following;
       state.id = id;
     },
-    savePost: (state, action) => {
-      const postId = action.payload;
-      if (!state.savedPosts?.includes(postId)) {
-        state.savedPosts?.push(postId);
-      } else {
-        state.savedPosts = state.savedPosts.filter(post => post !== postId);
-      }
-    },
-    likePost: (state, action) => {
-      const postId = action.payload;
-      if (!state.likedPosts?.includes(postId)) {
-        state.likedPosts?.push(postId);
-      } else {
-        state.likedPosts = state.likedPosts.filter(post => post !== postId);
-      }
-    },
-    addPostToUser: (state, action) => {
-      const {postId} = action.payload;
-      state.posts?.push(postId);
-    },
   },
   extraReducers: builder => {
     builder
@@ -143,5 +123,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const {updateUser, setUserFromAuth, likePost, savePost, addPostToUser} =
-  userSlice.actions;
+export const {updateUser, setUserFromAuth} = userSlice.actions;
