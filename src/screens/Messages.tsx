@@ -10,13 +10,33 @@ import Icon from 'react-native-vector-icons/Feather';
 import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
-import {MESSAGES} from '../utils/data';
 import Message from '../components/common/Message';
 import {useNavigation} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/store';
+import {User} from '../slices/userSlice';
 
 export default function Messages() {
   const navigation = useNavigation();
+  const currentUser = useSelector((state: RootState) => state.user);
+  const [users, setUsers] = useState<User[]>([]);
   const goBack = navigation.goBack;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      let res = await firestore()
+        .collection('Users')
+        .where('handle', '!=', currentUser.handle)
+        .get();
+      let fetchedUsers: User[] = [];
+      res.forEach(user => {
+        fetchedUsers.push({...user.data(), id: user.id.toString()});
+      });
+      setUsers(fetchedUsers);
+    };
+    fetchUsers();
+  }, [currentUser]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -28,10 +48,10 @@ export default function Messages() {
       <View style={styles.blueContainer} />
       <FlatList
         style={styles.messageContainer}
-        data={MESSAGES}
+        data={users}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <Message message={item} />}
+        renderItem={({item}) => <Message message={{user: item, id: item.id}} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={
           <View>

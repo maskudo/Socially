@@ -21,8 +21,8 @@ export default function Login() {
     if (email && password) {
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(user => {
-          console.log('User account created & logged in!');
+        .then(() => {
+          console.log('Logging in');
         })
         .catch(err => {
           if (err.code === 'auth/user-not-found') {

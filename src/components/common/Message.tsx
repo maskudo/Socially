@@ -8,17 +8,19 @@ import {
   View,
 } from 'react-native';
 import COLORS from '../../constants/colors';
-import {face1} from '../../constants/images';
+import {defaultProfilePic} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
+import {User} from '../../slices/userSlice';
 
 type MessageProps = {
-  id: number;
-  name: string;
-  text: string;
+  id: string;
+  user: User;
+  preview?: string;
 };
 export default function Message({message}: {message: MessageProps}) {
   const navigation = useNavigation();
-  const handlePressMessage = () => navigation.navigate('Conversations');
+  const handlePressMessage = () =>
+    navigation.navigate('Conversations', {otherUser: message.user});
   const handlePressProfile = () => navigation.navigate('Profile');
   return (
     <View style={styles.messageContainer}>
@@ -28,7 +30,7 @@ export default function Message({message}: {message: MessageProps}) {
           key={message.id}
           style={styles.roundedButton}>
           <ImageBackground
-            source={face1}
+            source={{uri: message.user.url ?? defaultProfilePic}}
             resizeMode="cover"
             style={styles.roundedButtonImage}
           />
@@ -36,11 +38,11 @@ export default function Message({message}: {message: MessageProps}) {
       </View>
       <Pressable style={styles.textContainer} onPress={handlePressMessage}>
         <View style={styles.nameContainer}>
-          <Text style={styles.name}>{message.name}</Text>
+          <Text style={styles.name}>{message.user.handle}</Text>
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.text} numberOfLines={2} ellipsizeMode="tail">
-            {message.text}
+            {message.preview}
           </Text>
         </View>
       </Pressable>

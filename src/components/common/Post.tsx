@@ -73,7 +73,7 @@ export default function Post({post}: {post: PostProps}) {
     dispatch(deletePost(post.id));
     setModalVisible(!modalVisible);
   };
-
+  // TODO: replace user with the createdBy user of the post
   return (
     <View style={styles.postContainer}>
       <Image source={{uri: post.url}} style={styles.image} />

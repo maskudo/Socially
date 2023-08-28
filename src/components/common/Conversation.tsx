@@ -1,5 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import TYPOGRAPHY from '../../constants/typography';
+import {RootState} from '../../store/store';
 type ConversationProps = {
   text: string;
   sender: string;
@@ -10,13 +12,15 @@ export default function Conversation({
 }: {
   conversation: ConversationProps;
 }) {
-  const currentUser = 'Malenia';
+  const currentUser = useSelector((state: RootState) => state.user);
   return (
     <View
       style={{
         ...styles.container,
         alignItems:
-          currentUser === conversation.sender ? 'flex-end' : 'flex-start',
+          currentUser.handle === conversation.sender
+            ? 'flex-end'
+            : 'flex-start',
       }}>
       <Text style={styles.text}>{conversation.text}</Text>
     </View>

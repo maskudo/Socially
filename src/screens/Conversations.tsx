@@ -1,9 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   ImageBackground,
-  Keyboard,
   StyleSheet,
   Text,
   TextInput,
@@ -11,33 +10,65 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useSelector} from 'react-redux';
 import BlackSquareRoundedEdge from '../components/common/BlackSquareRoundedEdge';
 import Conversation from '../components/common/Conversation';
 import COLORS from '../constants/colors';
 import FONTS from '../constants/fonts';
-import {face2} from '../constants/images';
 import TYPOGRAPHY from '../constants/typography';
-import {CONVERSATION} from '../utils/data';
+import {RootState} from '../store/store';
+import firestore from '@react-native-firebase/firestore';
+import {defaultProfilePic} from '../constants/images';
 
-export default function Conversations() {
+type Message = {
+  id: string;
+  sender: string;
+  receiver: string;
+  text: string;
+  createdAt: string;
+};
+
+export default function Conversations({route}) {
   const navigation = useNavigation();
-  const [conversations, setConversations] = useState(CONVERSATION);
+  const currentUser = useSelector((state: RootState) => state.user);
+  const {otherUser} = route.params;
+  const usersArray = [currentUser.handle, otherUser.handle];
+  const [conversations, setConversations] = useState<Message[]>([]);
   const [currentText, setCurrentText] = useState('');
   const flatlistRef = useRef(null);
-  const handleEndEditing = () => {
-    Keyboard.dismiss();
-    currentText &&
-      setConversations(oldConversations => [
-        ...oldConversations,
-        {
-          sender: 'Malenia',
-          receiver: 'Charlie Kelly',
-          text: currentText,
-        },
-      ]);
+  const handleEndEditing = async () => {
+    if (currentText) {
+      await firestore().collection('Messages').add({
+        sender: currentUser.handle,
+        receiver: otherUser.handle,
+        text: currentText,
+        createdAt: firestore.Timestamp.now().toDate(),
+      });
+    }
     setCurrentText('');
   };
   const goBack = navigation.goBack;
+  useEffect(() => {
+    const unsub = firestore()
+      .collection('Messages')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(res => {
+        const messages: Message[] = [];
+        res?.forEach(message => {
+          const actualMessage: Message = {...message.data(), id: message.id};
+          // TODO: Fix this hacky solution
+          if (
+            usersArray.includes(actualMessage.sender) &&
+            usersArray.includes(actualMessage.receiver)
+          ) {
+            messages.push(actualMessage);
+          }
+        });
+        setConversations(messages);
+      });
+    return () => unsub();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -50,14 +81,14 @@ export default function Conversations() {
           <View style={styles.imageContainerOutline}>
             <TouchableOpacity onPress={() => {}} style={styles.imageContainer}>
               <ImageBackground
-                source={face2}
+                source={{uri: otherUser.url ?? defaultProfilePic}}
                 resizeMode="cover"
                 style={styles.profileImage}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.name}>Charlie Kelly</Text>
+            <Text style={styles.name}>{otherUser.handle}</Text>
             <Text style={styles.status}>Online</Text>
           </View>
         </View>
@@ -70,7 +101,7 @@ export default function Conversations() {
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <Conversation conversation={item} />}
-        keyExtractor={(_, index) => index}
+        keyExtractor={item => item.id}
       />
 
       <View style={styles.inputContainer}>
@@ -79,7 +110,6 @@ export default function Conversations() {
             style={styles.textInput}
             placeholder={'Write a message...'}
             onChangeText={text => setCurrentText(text)}
-            onEndEditing={handleEndEditing}
             value={currentText}
             placeholderTextColor={COLORS.gray}
             blurOnSubmit={true}

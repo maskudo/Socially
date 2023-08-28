@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore from '@react-native-firebase/firestore';
 import {ToastAndroid} from 'react-native';
 import {defaultProfilePic} from '../constants/images';
-type User = {
+export type User = {
   id: string;
   displayName?: string;
   handle?: string;
@@ -122,7 +122,7 @@ const userSlice = createSlice({
       state.followers = followers;
       state.following = following;
       state.id = id;
-      state.url = url ?? state.url;
+      state.url = url;
     },
   },
   extraReducers: builder => {
