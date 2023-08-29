@@ -19,12 +19,17 @@ import {getPostsByUser} from '../utils/functions';
 import storage from '@react-native-firebase/storage';
 import {nanoid} from '@reduxjs/toolkit';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import {updateUserProfilePicture} from '../slices/userSlice';
+import {
+  updateUserFollowing,
+  updateUserProfilePicture,
+} from '../slices/userSlice';
 import {defaultProfilePic} from '../constants/images';
+import firestore from '@react-native-firebase/firestore';
 
 export default function Profile({route}) {
   const currentUser = useSelector((state: RootState) => state?.user);
-  const user = route?.params?.otherUser ?? currentUser;
+  const otherUser = route?.params?.otherUser;
+  const user = otherUser ?? currentUser;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const handleClickBookmark = () => navigation.navigate('Bookmarks');
@@ -53,6 +58,45 @@ export default function Profile({route}) {
       setPosts(fetchedPosts);
     }
   }, [user]);
+
+  const handleClickFollow = async () => {
+    let otherUserRef = await firestore()
+      .collection('Users')
+      .where('handle', '==', otherUser.handle)
+      .get();
+    if (otherUser.followers.includes(currentUser.handle)) {
+      otherUserRef.docs[0].ref
+        .update({
+          followers: firestore.FieldValue.arrayRemove(currentUser.handle),
+        })
+        .then(() => {
+          otherUser.followers.find(currentUser.handle);
+          [].find();
+          dispatch(
+            updateUserFollowing({
+              userId: currentUser.id,
+              otherUserHandle: otherUser.handle,
+              add: false,
+            }),
+          );
+        });
+      return;
+    }
+    otherUserRef.docs[0].ref
+      .update({
+        followers: firestore.FieldValue.arrayUnion(currentUser.handle),
+      })
+      .then(() => {
+        otherUser.followers.push(currentUser.handle);
+        dispatch(
+          updateUserFollowing({
+            userId: currentUser.id,
+            otherUserHandle: otherUser.handle,
+            add: true,
+          }),
+        );
+      });
+  };
 
   useEffect(() => {
     getPosts();
@@ -126,8 +170,20 @@ export default function Profile({route}) {
                 </TouchableOpacity>
               )}
               {user !== currentUser && (
-                <TouchableOpacity onPress={() => {}}>
-                  <Feather name={'user-plus'} size={25} color={COLORS.black} />
+                <TouchableOpacity onPress={handleClickFollow}>
+                  {currentUser.following.includes(user.handle) ? (
+                    <Feather
+                      name={'user-minus'}
+                      size={25}
+                      color={COLORS.black}
+                    />
+                  ) : (
+                    <Feather
+                      name={'user-plus'}
+                      size={25}
+                      color={COLORS.black}
+                    />
+                  )}
                 </TouchableOpacity>
               )}
             </View>

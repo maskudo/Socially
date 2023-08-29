@@ -95,6 +95,30 @@ export const updateUserProfilePicture = createAsyncThunk(
   },
 );
 
+export const updateUserFollowing = createAsyncThunk(
+  'uses/saves',
+  async ({
+    userId,
+    otherUserHandle,
+    add,
+  }: {
+    userId: string;
+    otherUserHandle: string;
+    add: boolean;
+  }) => {
+    const userRef = firestore().collection('Users').doc(userId);
+    if (add) {
+      userRef.update({
+        following: firestore.FieldValue.arrayUnion(otherUserHandle),
+      });
+    } else {
+      userRef.update({
+        following: firestore.FieldValue.arrayRemove(otherUserHandle),
+      });
+    }
+  },
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,

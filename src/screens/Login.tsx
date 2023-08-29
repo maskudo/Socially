@@ -25,12 +25,7 @@ export default function Login() {
           console.log('Logging in');
         })
         .catch(err => {
-          if (err.code === 'auth/user-not-found') {
-            setError('User not found');
-          }
-          if (err.code === 'auth/invalid-email') {
-            setError('That email address is invalid!');
-          }
+          setError(err.code.split('/')[1]);
         });
     }
     setPassword('');

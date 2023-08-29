@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
+import {defaultProfilePic} from '../../constants/images';
 import TYPOGRAPHY from '../../constants/typography';
 import {
   deletePost,
@@ -83,7 +84,7 @@ export default function Post({post}: {post: PostProps}) {
             <RoundedAvatar
               dimension={40}
               styles={{borderColor: 'grey'}}
-              image={{uri: user.url}}
+              image={{uri: user.url ?? defaultProfilePic}}
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>{post.createdBy}</Text>
