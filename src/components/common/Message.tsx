@@ -24,7 +24,7 @@ export default function Message({message}: {message: MessageProps}) {
   const handlePressProfile = () =>
     navigation.navigate('Profile', {otherUser: message.user});
   return (
-    <View style={styles.messageContainer}>
+    <Pressable style={styles.messageContainer} onPress={handlePressMessage}>
       <View style={styles.outline}>
         <TouchableOpacity
           onPress={handlePressProfile}
@@ -37,7 +37,7 @@ export default function Message({message}: {message: MessageProps}) {
           />
         </TouchableOpacity>
       </View>
-      <Pressable style={styles.textContainer} onPress={handlePressMessage}>
+      <Pressable style={styles.textContainer}>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{message.user.handle}</Text>
         </View>
@@ -47,7 +47,7 @@ export default function Message({message}: {message: MessageProps}) {
           </Text>
         </View>
       </Pressable>
-    </View>
+    </Pressable>
   );
 }
 

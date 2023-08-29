@@ -15,10 +15,12 @@ import {nanoid} from 'nanoid';
 import {buttonAddStory, face1} from '../constants/images';
 import {useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 const stories = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
 export default function Homepage() {
   const posts = useSelector(state => state?.post);
+  const tabBarHeight = useBottomTabBarHeight() + 25;
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -28,41 +30,43 @@ export default function Homepage() {
           <Icon name={'log-out'} style={styles.headerIcon} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.feed}>Feed</Text>
       <FlatList
-        style={styles.postContainer}
+        style={[styles.postContainer, {marginBottom: tabBarHeight}]}
         data={posts}
         stickyHeaderHiddenOnScroll={true}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <Post post={item} />}
         ListHeaderComponent={
-          <FlatList
-            style={styles.storyContainer}
-            data={stories}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() => {}}
-                key={item}
-                style={styles.storyButton}>
-                <ImageBackground
-                  source={face1}
-                  resizeMode="cover"
-                  style={styles.storyButtonImage}
-                />
-              </TouchableOpacity>
-            )}
-            ListHeaderComponent={
-              <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
-                <ImageBackground
-                  source={buttonAddStory}
-                  resizeMode="contain"
-                  style={styles.storyButtonImage}
-                />
-              </TouchableOpacity>
-            }
-          />
+          <View>
+            <Text style={styles.feed}>Feed</Text>
+            <FlatList
+              style={styles.storyContainer}
+              data={stories}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  onPress={() => {}}
+                  key={item}
+                  style={styles.storyButton}>
+                  <ImageBackground
+                    source={face1}
+                    resizeMode="cover"
+                    style={styles.storyButtonImage}
+                  />
+                </TouchableOpacity>
+              )}
+              ListHeaderComponent={
+                <TouchableOpacity onPress={() => {}} style={styles.storyButton}>
+                  <ImageBackground
+                    source={buttonAddStory}
+                    resizeMode="contain"
+                    style={styles.storyButtonImage}
+                  />
+                </TouchableOpacity>
+              }
+            />
+          </View>
         }
         keyExtractor={item => item.id}
       />
@@ -118,7 +122,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   postContainer: {
-    marginBottom: 150,
     display: 'flex',
   },
   blueContainer: {

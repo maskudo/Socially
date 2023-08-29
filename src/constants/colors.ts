@@ -7,6 +7,7 @@ const COLORS = {
   lightblue: '#E1F6F4',
   pink: 'pink',
   yellow: '#EEF2E2',
+  red: '#FD1D1D',
   gradient: '#FFE1E0',
 };
 export default COLORS;

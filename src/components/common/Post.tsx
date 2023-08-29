@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Image,
   Modal,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useDispatch, useSelector} from 'react-redux';
 import COLORS from '../../constants/colors';
 import {defaultProfilePic} from '../../constants/images';
@@ -21,6 +21,7 @@ import {
 } from '../../slices/postSlice';
 import {updateUserLikes, updateUserSaves} from '../../slices/userSlice';
 import RoundedAvatar from './RoundedAvatar';
+import firestore from '@react-native-firebase/firestore';
 
 export type PostProps = {
   id: string;
@@ -32,9 +33,9 @@ export type PostProps = {
   saves: string[];
 };
 
-// TODO: red heart when post liked
 export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
+  const [poster, setPoster] = useState<User>();
   const [modalVisible, setModalVisible] = useState(false);
   const user = useSelector(state => state?.user);
   const createdAt = moment(post.createdAt).fromNow();
@@ -75,6 +76,16 @@ export default function Post({post}: {post: PostProps}) {
     setModalVisible(!modalVisible);
   };
   // TODO: replace user with the createdBy user of the post
+  useEffect(() => {
+    firestore()
+      .collection('Users')
+      .where('handle', '==', post.createdBy)
+      .get()
+      .then(res => {
+        const posterRef = res.docs[0];
+        setPoster({...posterRef.data(), id: posterRef.id});
+      });
+  }, []);
   return (
     <View style={styles.postContainer}>
       <Image source={{uri: post.url}} style={styles.image} />
@@ -84,17 +95,19 @@ export default function Post({post}: {post: PostProps}) {
             <RoundedAvatar
               dimension={40}
               styles={{borderColor: 'grey'}}
-              image={{uri: user.url ?? defaultProfilePic}}
+              image={{uri: poster?.url ?? defaultProfilePic}}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.text}>{post.createdBy}</Text>
+              <Text style={styles.text}>{poster?.handle}</Text>
               <Text style={styles.text}>{createdAt}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <TouchableOpacity
+              onPress={() => setModalVisible(true)}
+              hitSlop={20}>
               <Icon
-                name="more-vertical"
+                name="ellipsis-vertical"
                 size={18}
                 color={COLORS.white}
                 style={styles.pillIcon}
@@ -105,20 +118,30 @@ export default function Post({post}: {post: PostProps}) {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.pill}>
-            <TouchableOpacity onPress={handleLike}>
-              <Icon
-                name="heart"
-                size={18}
-                color={COLORS.white}
-                style={[styles.pillIcon]}
-              />
+            <TouchableOpacity onPress={handleLike} hitSlop={20}>
+              {post.likes.includes(user.handle) ? (
+                <Icon
+                  name="heart"
+                  size={18}
+                  color={COLORS.red}
+                  style={[styles.pillIcon]}
+                  solid
+                />
+              ) : (
+                <Icon
+                  name="heart"
+                  size={18}
+                  color={COLORS.white}
+                  style={[styles.pillIcon]}
+                />
+              )}
             </TouchableOpacity>
             <Text style={styles.pillText}>{post?.likes?.length}</Text>
           </View>
           <View style={styles.pill}>
-            <TouchableOpacity>
+            <TouchableOpacity hitSlop={20}>
               <Icon
-                name="message-square"
+                name="message"
                 size={18}
                 color={COLORS.white}
                 style={styles.pillIcon}
@@ -127,13 +150,23 @@ export default function Post({post}: {post: PostProps}) {
             <Text style={styles.pillText}>{post?.comments?.length}</Text>
           </View>
           <View style={styles.pill}>
-            <TouchableOpacity onPress={handleSave}>
-              <Icon
-                name="bookmark"
-                size={18}
-                color={COLORS.white}
-                style={styles.pillIcon}
-              />
+            <TouchableOpacity onPress={handleSave} hitSlop={20}>
+              {post.saves.includes(user.handle) ? (
+                <Icon
+                  name="bookmark"
+                  size={18}
+                  color={COLORS.white}
+                  style={[styles.pillIcon]}
+                  solid
+                />
+              ) : (
+                <Icon
+                  name="bookmark"
+                  size={18}
+                  color={COLORS.white}
+                  style={[styles.pillIcon]}
+                />
+              )}
             </TouchableOpacity>
             <Text style={styles.pillText}>{post?.saves?.length}</Text>
           </View>

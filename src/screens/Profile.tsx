@@ -70,8 +70,9 @@ export default function Profile({route}) {
           followers: firestore.FieldValue.arrayRemove(currentUser.handle),
         })
         .then(() => {
-          otherUser.followers.find(currentUser.handle);
-          [].find();
+          otherUser.followers = otherUser.followers.filter(
+            item => item != currentUser.handle,
+          );
           dispatch(
             updateUserFollowing({
               userId: currentUser.id,
