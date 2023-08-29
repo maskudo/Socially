@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -20,9 +20,11 @@ import storage from '@react-native-firebase/storage';
 import {nanoid} from '@reduxjs/toolkit';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {updateUserProfilePicture} from '../slices/userSlice';
+import {defaultProfilePic} from '../constants/images';
 
-export default function Profile() {
-  const user = useSelector((state: RootState) => state?.user);
+export default function Profile({route}) {
+  const currentUser = useSelector((state: RootState) => state?.user);
+  const user = route?.params?.otherUser ?? currentUser;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const handleClickBookmark = () => navigation.navigate('Bookmarks');
@@ -45,15 +47,16 @@ export default function Profile() {
     );
   };
   const [posts, setPosts] = useState<PostProps[]>([]);
-  useEffect(() => {
-    const getPosts = async () => {
-      if (user?.handle) {
-        const fetchedPosts = await getPostsByUser(user.handle);
-        setPosts(fetchedPosts);
-      }
-    };
-    getPosts();
+  const getPosts = useCallback(async () => {
+    if (user?.handle) {
+      const fetchedPosts = await getPostsByUser(user.handle);
+      setPosts(fetchedPosts);
+    }
   }, [user]);
+
+  useEffect(() => {
+    getPosts();
+  }, [getPosts]);
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -82,17 +85,17 @@ export default function Profile() {
                   style={styles.imageContainer}
                   onPress={handleClickProfileImage}>
                   <Image
-                    source={{uri: user.url}}
+                    source={{uri: user.url ?? defaultProfilePic}}
                     style={styles.profileImage}
                     resizeMode="cover"
                   />
                 </Pressable>
               </View>
               <Text style={styles.name}>
-                {user.displayName ?? user.email.split('@')[0]}
+                {user.displayName ?? user.email?.split('@')[0]}
               </Text>
               <Text style={styles.handle}>
-                @{user.handle ?? user.email.split('@')[0]}
+                @{user.handle ?? user.email?.split('@')[0]}
               </Text>
             </View>
             <View style={styles.statistics}>
@@ -117,9 +120,16 @@ export default function Profile() {
               <TouchableOpacity>
                 <Feather name={'image'} size={25} color={COLORS.black} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleClickBookmark}>
-                <Feather name={'bookmark'} size={25} color={COLORS.black} />
-              </TouchableOpacity>
+              {user === currentUser && (
+                <TouchableOpacity onPress={handleClickBookmark}>
+                  <Feather name={'bookmark'} size={25} color={COLORS.black} />
+                </TouchableOpacity>
+              )}
+              {user !== currentUser && (
+                <TouchableOpacity onPress={() => {}}>
+                  <Feather name={'user-plus'} size={25} color={COLORS.black} />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         }

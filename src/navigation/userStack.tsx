@@ -94,7 +94,7 @@ function TabScreen() {
               .then(image => {
                 navigation.navigate('AddPost', {image});
               })
-              .catch(e => console.log(e));
+              .catch(err => console.log(err));
           },
         })}
         options={{
@@ -128,6 +128,12 @@ function TabScreen() {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('Profile', {});
+          },
+        })}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({size, color}) => (

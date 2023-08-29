@@ -21,7 +21,8 @@ export default function Message({message}: {message: MessageProps}) {
   const navigation = useNavigation();
   const handlePressMessage = () =>
     navigation.navigate('Conversations', {otherUser: message.user});
-  const handlePressProfile = () => navigation.navigate('Profile');
+  const handlePressProfile = () =>
+    navigation.navigate('Profile', {otherUser: message.user});
   return (
     <View style={styles.messageContainer}>
       <View style={styles.outline}>
