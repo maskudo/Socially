@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     position: 'relative',
     backgroundColor: COLORS.white,
+    flex: 1,
   },
   profile: {
     height: 250,

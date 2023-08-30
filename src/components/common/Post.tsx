@@ -19,9 +19,11 @@ import {
   updatePostLikes,
   updatePostSaves,
 } from '../../slices/postSlice';
-import {updateUserLikes, updateUserSaves} from '../../slices/userSlice';
+import {updateUserLikes, updateUserSaves, User} from '../../slices/userSlice';
 import RoundedAvatar from './RoundedAvatar';
 import firestore from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
+import {RootState} from '../../store/store';
 
 export type PostProps = {
   id: string;
@@ -37,8 +39,9 @@ export default function Post({post}: {post: PostProps}) {
   const dispatch = useDispatch();
   const [poster, setPoster] = useState<User>();
   const [modalVisible, setModalVisible] = useState(false);
-  const user = useSelector(state => state?.user);
-  const createdAt = moment(post.createdAt).fromNow();
+  const user = useSelector((state: RootState) => state?.user);
+  const createdAt = moment(post.createdAt).calendar();
+  const navigation = useNavigation();
   const handleSave = () => {
     dispatch(
       updateUserSaves({
@@ -86,6 +89,9 @@ export default function Post({post}: {post: PostProps}) {
         setPoster({...posterRef.data(), id: posterRef.id});
       });
   }, []);
+  const handlePressAvatar = () => {
+    navigation.navigate('Profile', {otherUser: poster});
+  };
   return (
     <View style={styles.postContainer}>
       <Image source={{uri: post.url}} style={styles.image} />
@@ -96,6 +102,7 @@ export default function Post({post}: {post: PostProps}) {
               dimension={40}
               styles={{borderColor: 'grey'}}
               image={{uri: poster?.url ?? defaultProfilePic}}
+              handlePress={handlePressAvatar}
             />
             <View style={styles.textContainer}>
               <Text style={styles.text}>{poster?.handle}</Text>
@@ -119,7 +126,7 @@ export default function Post({post}: {post: PostProps}) {
         <View style={styles.bottomContainer}>
           <View style={styles.pill}>
             <TouchableOpacity onPress={handleLike} hitSlop={20}>
-              {post.likes.includes(user.handle) ? (
+              {post?.likes?.includes(user.handle) ? (
                 <Icon
                   name="heart"
                   size={18}
@@ -151,7 +158,7 @@ export default function Post({post}: {post: PostProps}) {
           </View>
           <View style={styles.pill}>
             <TouchableOpacity onPress={handleSave} hitSlop={20}>
-              {post.saves.includes(user.handle) ? (
+              {post?.saves?.includes(user.handle) ? (
                 <Icon
                   name="bookmark"
                   size={18}
@@ -192,7 +199,7 @@ export default function Post({post}: {post: PostProps}) {
             <TouchableOpacity style={styles.button} onPress={() => {}}>
               <Text style={styles.textStyle}>Edit</Text>
             </TouchableOpacity>
-            {user.handle === post.createdBy && (
+            {user.handle === post?.createdBy && (
               <TouchableOpacity
                 style={[styles.button]}
                 onPress={handleDeletePost}>

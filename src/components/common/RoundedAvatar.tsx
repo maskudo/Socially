@@ -9,13 +9,15 @@ export default function RoundedAvatar({
   dimension,
   image,
   styles,
+  handlePress,
 }: {
   dimension: Number;
   image: ImageSourcePropType;
   styles: StyleProp<any>;
+  handlePress: () => void;
 }) {
   return (
-    <TouchableOpacity onPress={() => {}}>
+    <TouchableOpacity onPress={handlePress}>
       <Image
         source={image}
         style={{
