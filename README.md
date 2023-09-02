@@ -6,6 +6,8 @@ A social media app clone
 
 <img src="assets/img/screenshots/swiper1.png" height="600">
 <img src="assets/img/screenshots/swiper2.png" height="600">
+<img src="assets/img/screenshots/login.png" height="600">
+<img src="assets/img/screenshots/signup.png" height="600">
 <img src="assets/img/screenshots/home.png" height="600">
 <img src="assets/img/screenshots/profile.png" height="600">
 <img src="assets/img/screenshots/savedPosts.png" height="600">

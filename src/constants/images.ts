@@ -5,5 +5,6 @@ export const buttonAddStory = require('../../assets/img/common/ButtonAddStory.pn
 export const buttonOptions = require('../../assets/img/common/Button-options.png');
 export const postImage = require('../../assets/img/home/nature.jpg');
 export const splashImage = require('../../assets/img/splash/main.png');
+export const backgroundImage = require('../../assets/img/common/background.png');
 export const defaultProfilePic =
   'https://www.pngkey.com/png/detail/115-1150152_default-profile-picture-avatar-png-green.png';

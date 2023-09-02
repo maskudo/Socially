@@ -11,16 +11,31 @@ import Icon from 'react-native-vector-icons/Feather';
 import TYPOGRAPHY from '../constants/typography';
 import FONTS from '../constants/fonts';
 import COLORS from '../constants/colors';
-import {nanoid} from 'nanoid';
-import {buttonAddStory, face1} from '../constants/images';
+import {buttonAddStory, defaultProfilePic, face1} from '../constants/images';
 import {useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import firestore from '@react-native-firebase/firestore';
+import {useEffect, useState} from 'react';
+import {User} from '../slices/userSlice';
 
-const stories = [nanoid(), nanoid(), nanoid(), nanoid(), nanoid()];
 export default function Homepage() {
   const posts = useSelector(state => state?.post);
   const tabBarHeight = useBottomTabBarHeight() + 25;
+  const [stories, setStories] = useState<User[]>([]);
+  useEffect(() => {
+    const fetchStories = async () => {
+      let users = await firestore().collection('Users').get();
+      users = users.docs;
+      const fetchedStories: User[] = [];
+      users.forEach(user => {
+        fetchedStories.push({...user.data(), id: user.id});
+      });
+      console.log({fetchedStories});
+      setStories(fetchedStories);
+    };
+    fetchStories();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.blueContainer} />
@@ -47,10 +62,10 @@ export default function Homepage() {
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {}}
-                  key={item}
+                  key={item.id}
                   style={styles.storyButton}>
                   <ImageBackground
-                    source={face1}
+                    source={{uri: item.url || defaultProfilePic}}
                     resizeMode="cover"
                     style={styles.storyButtonImage}
                   />
